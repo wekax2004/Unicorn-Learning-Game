@@ -31,23 +31,26 @@ export default function PuzzleGame({ onWin }) {
     canvas.height = 500;
     const ctx = canvas.getContext('2d');
     
-    // Background
-    ctx.fillStyle = '#fbcfe8'; // Soft pink background
+    // Background gradient
+    const gradient = ctx.createLinearGradient(0, 0, 600, 500);
+    gradient.addColorStop(0, '#fbcfe8'); // pink
+    gradient.addColorStop(0.5, '#fde047'); // yellow
+    gradient.addColorStop(1, '#6ee7b7'); // mint
+    ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, 600, 500);
     
-    // Draw some colorful circles so edge pieces have texture
-    const colors = ['#f472b6', '#38bdf8', '#fbbf24', '#a3e635'];
-    for (let i = 0; i < 20; i++) {
-      ctx.beginPath();
-      ctx.arc(
-        Math.random() * 600, 
-        Math.random() * 500, 
-        Math.random() * 40 + 20, 
-        0, 
-        Math.PI * 2
-      );
-      ctx.fillStyle = colors[i % colors.length] + '80'; // 50% opacity
-      ctx.fill();
+    // Draw dense colorful polka dots so no piece is blank
+    const colors = ['#f472b6', '#38bdf8', '#fbbf24', '#a3e635', '#c084fc', '#fb7185'];
+    for (let x = 20; x < 600; x += 40) {
+      for (let y = 20; y < 500; y += 40) {
+        ctx.beginPath();
+        const px = x + (Math.random() * 10 - 5);
+        const py = y + (Math.random() * 10 - 5);
+        const radius = Math.random() * 15 + 5;
+        ctx.arc(px, py, radius, 0, Math.PI * 2);
+        ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)] + '99';
+        ctx.fill();
+      }
     }
     
     // Draw Emoji HUGE so it fills the board
