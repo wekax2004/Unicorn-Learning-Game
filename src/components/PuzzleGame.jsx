@@ -58,7 +58,8 @@ export default function PuzzleGame({ onWin }) {
           id: `${r}-${c}`,
           r,
           c,
-          bgX: (c / (difficulty.cols - 1)) * 100 || 0,
+          // In RTL layout, column 0 is on the right, so we must invert the background X position
+          bgX: ((difficulty.cols - 1 - c) / (difficulty.cols - 1)) * 100 || 0,
           bgY: (r / (difficulty.rows - 1)) * 100 || 0,
           width,
           height
