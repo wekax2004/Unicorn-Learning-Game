@@ -5,47 +5,60 @@ import './ListenButton.css';
 export default function ListenButton({ text }) {
   const [isPlaying, setIsPlaying] = useState(false);
 
+const AUDIO_MAP = {
+  "ברוכה הבאה למשחק הקסם שלי!": "welcome",
+  "התאימי את הצורה לצללית שלה": "match_shape",
+  "עזרי לחד-קרן להגיע לכוכב, והיזהרי מהקירות!": "maze",
+  "כתבי את האותיות": "tracing",
+  "ספרי את הפריטים ובחרי את המספר הנכון": "counting",
+  "התאימי את הגדול לסל הגדול, והקטן לסל הקטן": "size",
+  "גררי את החלקים למקום הנכון להשלמת התמונה": "puzzle_drag",
+  "בחרי רמת קושי לפאזל": "puzzle_diff",
+  "מצאי את כל הזוגות": "memory",
+  "מצאי את הפריט המבוקש": "identify",
+  "בחרי צבע וצבעי את הציור!": "coloring",
+  "ברוכה הבאה לאלבום המדבקות שלך!": "sticker"
+};
+
   const speak = (e) => {
     if (e && e.preventDefault) e.preventDefault();
     if (e && e.stopPropagation) e.stopPropagation();
     
     if (isPlaying) return;
 
-    const voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
-    const hebrewVoice = voices.find(v => v.lang.includes('he') || v.lang.includes('HE') || v.lang.includes('iw'));
-
-    // 1. Try Google TTS (Best quality, works on Windows without installed packs)
-    try {
-      const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=he&q=${encodeURIComponent(text)}`;
-      const audio = new Audio(url);
+    // 1. Check if we have a pre-recorded MP3 for this text
+    if (AUDIO_MAP[text]) {
+      const audioUrl = `/Unicorn-Learning-Game/audio/${AUDIO_MAP[text]}.mp3`;
+      const audio = new Audio(audioUrl);
       
       audio.onplay = () => setIsPlaying(true);
       audio.onended = () => setIsPlaying(false);
-      
-      // If Google TTS fails (iOS blocked, offline, etc)
       audio.onerror = () => {
         setIsPlaying(false);
-        playNative(hebrewVoice);
+        playNative(); // Fallback if file fails to load
       };
       
       audio.play().catch(err => {
-        console.warn("Google TTS blocked, falling back to native.", err);
+        console.warn("Audio play failed, falling back to native.", err);
         setIsPlaying(false);
-        playNative(hebrewVoice);
+        playNative();
       });
-    } catch (err) {
-      console.warn("Google TTS failed to init, falling back to native.", err);
-      setIsPlaying(false);
-      playNative(hebrewVoice);
+      return;
     }
+
+    // 2. If no MP3 exists, use native SpeechSynthesis
+    playNative();
   };
 
-  const playNative = (hebrewVoice) => {
+  const playNative = () => {
     if (!('speechSynthesis' in window)) {
-      alert("הדפדפן שלך אינו תומך בהקראת טקסט. נסה דפדפן אחר.");
+      console.warn("Speech synthesis not supported.");
       return;
     }
     
+    const voices = window.speechSynthesis.getVoices();
+    const hebrewVoice = voices.find(v => v.lang.includes('he') || v.lang.includes('HE') || v.lang.includes('iw'));
+
     window.speechSynthesis.cancel();
     
     setTimeout(() => {
@@ -60,13 +73,6 @@ export default function ListenButton({ text }) {
       msg.onerror = () => setIsPlaying(false);
       
       window.speechSynthesis.speak(msg);
-      
-      setTimeout(() => {
-        if (!window.speechSynthesis.speaking) {
-          setIsPlaying(false);
-          console.warn("Native speech didn't start. Voice might be missing or device is muted.");
-        }
-      }, 1000);
     }, 50);
   };
 
