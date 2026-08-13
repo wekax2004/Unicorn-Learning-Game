@@ -5,25 +5,36 @@ import './ListenButton.css';
 export default function ListenButton({ text }) {
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const speak = () => {
-    if (!('speechSynthesis' in window)) return;
+  const speak = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    if (e && e.stopPropagation) e.stopPropagation();
     
-    // Create utterance
-    const msg = new SpeechSynthesisUtterance(text);
-    msg.lang = 'he-IL';
-    
-    // Safari/Chrome bug: the utterance can be garbage collected before it finishes
-    // Storing it on the window object prevents this.
-    window.currentUtterance = msg;
-    
-    msg.onstart = () => setIsPlaying(true);
-    msg.onend = () => setIsPlaying(false);
-    msg.onerror = (e) => {
-      console.error('Speech synthesis error:', e);
-      setIsPlaying(false);
-    };
+    if (isPlaying) return;
 
-    window.speechSynthesis.speak(msg);
+    try {
+      const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=he&q=${encodeURIComponent(text)}`;
+      const audio = new Audio(url);
+      
+      audio.onplay = () => setIsPlaying(true);
+      audio.onended = () => setIsPlaying(false);
+      audio.onerror = () => {
+        setIsPlaying(false);
+        // Fallback to speechSynthesis if Google TTS fails (or offline)
+        if ('speechSynthesis' in window) {
+          const msg = new SpeechSynthesisUtterance(text);
+          msg.lang = 'he-IL';
+          window.speechSynthesis.speak(msg);
+        }
+      };
+      
+      audio.play().catch(err => {
+        console.error("Audio play failed:", err);
+        setIsPlaying(false);
+      });
+    } catch (err) {
+      console.error(err);
+      setIsPlaying(false);
+    }
   };
 
   return (
