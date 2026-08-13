@@ -24,7 +24,7 @@ export default function PuzzleGame({ onWin }) {
     return ANIMALS[Math.floor(Math.random() * ANIMALS.length)].icon;
   }, []);
 
-  // Generate a high-res image from the emoji using Canvas!
+    // Generate a high-res image from the emoji using Canvas!
   useEffect(() => {
     const canvas = document.createElement('canvas');
     canvas.width = 600;
@@ -35,11 +35,26 @@ export default function PuzzleGame({ onWin }) {
     ctx.fillStyle = '#fbcfe8'; // Soft pink background
     ctx.fillRect(0, 0, 600, 500);
     
-    // Draw Emoji
-    ctx.font = '300px sans-serif';
+    // Draw some colorful circles so edge pieces have texture
+    const colors = ['#f472b6', '#38bdf8', '#fbbf24', '#a3e635'];
+    for (let i = 0; i < 20; i++) {
+      ctx.beginPath();
+      ctx.arc(
+        Math.random() * 600, 
+        Math.random() * 500, 
+        Math.random() * 40 + 20, 
+        0, 
+        Math.PI * 2
+      );
+      ctx.fillStyle = colors[i % colors.length] + '80'; // 50% opacity
+      ctx.fill();
+    }
+    
+    // Draw Emoji HUGE so it fills the board
+    ctx.font = '450px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(emoji, 300, 270); // Slightly adjusted for baseline
+    ctx.fillText(emoji, 300, 270); 
     
     setImageSrc(canvas.toDataURL('image/png'));
   }, [emoji]);
@@ -58,8 +73,7 @@ export default function PuzzleGame({ onWin }) {
           id: `${r}-${c}`,
           r,
           c,
-          // In RTL layout, column 0 is on the right, so we must invert the background X position
-          bgX: ((difficulty.cols - 1 - c) / (difficulty.cols - 1)) * 100 || 0,
+          bgX: (c / (difficulty.cols - 1)) * 100 || 0,
           bgY: (r / (difficulty.rows - 1)) * 100 || 0,
           width,
           height
