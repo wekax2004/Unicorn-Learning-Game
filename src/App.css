@@ -1,0 +1,145 @@
+.hub-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 2rem;
+  /* background is now global in index.css */
+}
+
+.hero-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  border-radius: 40px;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  color: var(--text);
+  margin: 1rem 0;
+  text-shadow: 2px 2px 0px white;
+  text-align: center;
+}
+
+.unicorn-mascot {
+  font-size: 5rem;
+  animation: float-jump 3s ease-in-out infinite;
+  filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2));
+}
+
+@keyframes float-jump {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-20px) rotate(-5deg); }
+  75% { transform: translateY(-10px) rotate(5deg); }
+}
+
+.success-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  animation: bounce-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.unicorn-success {
+  font-size: 8rem;
+  animation: float-jump 1s ease-in-out infinite;
+}
+
+.play-random-btn {
+  font-size: 2.5rem;
+  padding: 1.5rem 3rem;
+  border-radius: 40px;
+  background-color: var(--success);
+  border-color: #4ade80;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  animation: pulse 2s infinite;
+}
+
+.inline-icon {
+  animation: spin 4s linear infinite;
+}
+
+.games-grid {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.game-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  border-radius: 30px;
+  border-color: rgba(255,255,255,0.8);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.game-card h2 {
+  margin-top: 1rem;
+  font-size: 1.5rem;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  /* Transparent so global gradient shows */
+  background-color: transparent;
+}
+
+.top-bar {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.back-button {
+  font-size: 1.5rem;
+  padding: 0.5rem 1.5rem;
+  background-color: white;
+  border-color: #ccc;
+  color: #333;
+}
+
+.game-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

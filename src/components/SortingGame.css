@@ -1,0 +1,74 @@
+.sorting-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  width: 90%;
+  max-width: 800px;
+}
+
+.baskets-container {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.basket {
+  width: 140px;
+  height: 140px;
+  border-width: 6px;
+  border-style: solid;
+  border-radius: 20px 20px 40px 40px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 10px;
+}
+
+.basket-label {
+  width: 80%;
+  height: 20px;
+  border-radius: 10px;
+  opacity: 0.8;
+}
+
+.basket-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.items-container {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.sortable-item {
+  width: 80px;
+  height: 80px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.sortable-item:active {
+  cursor: grabbing;
+}
+
+.item-icon {
+  font-size: 3rem;
+}
+
+.empty-slot {
+  width: 80px;
+  height: 80px;
+}

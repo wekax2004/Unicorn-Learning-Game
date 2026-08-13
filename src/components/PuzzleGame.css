@@ -1,0 +1,86 @@
+.puzzle-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  width: 90%;
+  max-width: 600px;
+}
+
+.puzzle-board {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  margin-bottom: 3rem;
+  overflow: hidden;
+}
+
+.puzzle-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.big-emoji {
+  font-size: 150px;
+  line-height: 1;
+}
+
+.puzzle-hole {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hole-inner {
+  font-size: 3rem;
+  color: white;
+  font-weight: bold;
+}
+
+.puzzle-pieces {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.puzzle-piece {
+  width: 100px;
+  height: 100px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  cursor: grab;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.puzzle-piece:active {
+  cursor: grabbing;
+}
+
+.piece-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 200px;
+  transform: scale(0.5);
+  transform-origin: top left;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

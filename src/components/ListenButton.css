@@ -1,0 +1,19 @@
+.listen-button {
+  background-color: var(--primary);
+  border: 4px solid var(--accent);
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  box-shadow: 0 4px 0 var(--accent);
+  transition: all 0.1s ease;
+  padding: 0;
+}
+
+.listen-button:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--accent);
+}

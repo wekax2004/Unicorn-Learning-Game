@@ -1,0 +1,77 @@
+.matching-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+  width: 100%;
+  padding: 2rem;
+}
+
+.targets-container {
+  display: flex;
+  gap: 3rem;
+  margin-top: 2rem;
+}
+
+.target {
+  width: 120px;
+  height: 120px;
+  border-radius: 20px;
+  border: 6px dashed #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  font-weight: bold;
+  color: #aaa;
+  background-color: rgba(255,255,255,0.5);
+  transition: all 0.3s ease;
+}
+
+.target.matched {
+  border-style: solid;
+  border-color: var(--success);
+  color: var(--text);
+  background-color: var(--success);
+}
+
+.draggables-container {
+  display: flex;
+  gap: 3rem;
+  margin-bottom: 2rem;
+}
+
+.draggable {
+  width: 120px;
+  height: 120px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  font-weight: bold;
+  color: var(--text);
+  box-shadow: 0 8px 0 rgba(0,0,0,0.1);
+  cursor: grab;
+  touch-action: none;
+}
+
+.draggable:active {
+  cursor: grabbing;
+}
+
+.success-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  animation: pulse 2s infinite;
+}
+
+.success-screen h1 {
+  font-size: 4rem;
+  color: var(--success);
+  margin-top: 1rem;
+}
