@@ -9,32 +9,39 @@ export default function ListenButton({ text }) {
     if (e && e.preventDefault) e.preventDefault();
     if (e && e.stopPropagation) e.stopPropagation();
     
-    if (isPlaying) return;
+    if (!('speechSynthesis' in window)) {
+      alert("הדפדפן שלך אינו תומך בהקראת טקסט.");
+      return;
+    }
 
-    try {
-      const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=he&q=${encodeURIComponent(text)}`;
-      const audio = new Audio(url);
+    // Cancel previous speech to prevent queue build-up
+    window.speechSynthesis.cancel();
+
+    // Small timeout for iOS Safari to process the cancel before speaking
+    setTimeout(() => {
+      const msg = new SpeechSynthesisUtterance(text);
+      msg.lang = 'he-IL';
       
-      audio.onplay = () => setIsPlaying(true);
-      audio.onended = () => setIsPlaying(false);
-      audio.onerror = () => {
+      // Safari hack: store on window to prevent garbage collection
+      window.currentUtterance = msg;
+      
+      msg.onstart = () => setIsPlaying(true);
+      msg.onend = () => setIsPlaying(false);
+      msg.onerror = (err) => {
+        console.error('Speech synthesis error:', err);
         setIsPlaying(false);
-        // Fallback to speechSynthesis if Google TTS fails (or offline)
-        if ('speechSynthesis' in window) {
-          const msg = new SpeechSynthesisUtterance(text);
-          msg.lang = 'he-IL';
-          window.speechSynthesis.speak(msg);
-        }
       };
       
-      audio.play().catch(err => {
-        console.error("Audio play failed:", err);
-        setIsPlaying(false);
-      });
-    } catch (err) {
-      console.error(err);
-      setIsPlaying(false);
-    }
+      window.speechSynthesis.speak(msg);
+      
+      // If it doesn't start playing within 1 second, it might be blocked or missing voice
+      setTimeout(() => {
+        if (!window.speechSynthesis.speaking) {
+          setIsPlaying(false);
+          console.warn("Speech didn't start. Check device mute switch or Hebrew voice settings.");
+        }
+      }, 1000);
+    }, 50);
   };
 
   return (
