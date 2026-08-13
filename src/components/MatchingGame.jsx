@@ -49,9 +49,9 @@ export default function MatchingGame({ onWin }) {
 
   return (
     <div className="matching-game glass-panel" style={{ padding: '2rem', width: '90%' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <ListenButton text="התאימי את הצורות למקום שלהן" />
-        <h2 style={{ margin: 0, fontSize: '2rem' }}>התאימי את הצורות</h2>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
+        <ListenButton text="התאימי למקום" />
+        <h2 style={{ margin: 0, fontSize: '2rem' }}>התאימי למקום</h2>
       </div>
 
       <div className="targets-container">

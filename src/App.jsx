@@ -15,7 +15,7 @@ function App() {
   const [currentView, setCurrentView] = useState('hub');
 
   const games = [
-    { id: 'matching', name: 'התאמת צורות', icon: Shapes, color: '#fbcfe8' },
+    { id: 'matching', name: 'התאמה', icon: Shapes, color: '#fbcfe8' },
     { id: 'maze', name: 'מבוך', icon: Route, color: '#e9d5ff' },
     { id: 'tracing', name: 'כתיבה', icon: PenTool, color: '#c084fc' },
     { id: 'counting', name: 'ספירה', icon: Hash, color: '#fde047' },

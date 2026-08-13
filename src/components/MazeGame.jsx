@@ -54,8 +54,8 @@ const MAZES = [
 
 export default function MazeGame({ onWin }) {
   const [won, setWon] = useState(false);
+  const [resetCount, setResetCount] = useState(0);
   const containerRef = useRef(null);
-  const controls = useAnimation();
   
   const maze = useMemo(() => {
     return MAZES[Math.floor(Math.random() * MAZES.length)];
@@ -69,13 +69,16 @@ export default function MazeGame({ onWin }) {
     const clientY = e.touches ? e.touches[0].clientY : info.point.y;
     
     const elements = document.elementsFromPoint(clientX, clientY);
+    if (!elements) return;
     
     const isWall = elements.some(el => el.getAttribute('data-wall') === 'true');
     const isEnd = elements.some(el => el.getAttribute('data-end') === 'true');
     
     if (isWall) {
-      // Small boop to indicate hitting a wall
       playPop();
+      // Instantly cancel the drag and snap back to start by changing the key
+      setResetCount(prev => prev + 1);
+      return;
     }
     
     if (isEnd && !won) {
@@ -123,13 +126,13 @@ export default function MazeGame({ onWin }) {
         
         {/* The Unicorn is absolutely positioned and draggable over the grid */}
         <motion.div
+          key={`unicorn-${resetCount}`}
           className="maze-unicorn"
           drag
           dragMomentum={false}
           dragElastic={0}
           dragConstraints={containerRef}
           onDrag={handleDrag}
-          animate={controls}
           style={{
             // Position unicorn at the start cell initially. 
             // In a 4x4 grid, if 'S' is at 0,0 it's top left.
