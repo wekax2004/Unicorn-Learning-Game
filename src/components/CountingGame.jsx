@@ -50,8 +50,8 @@ export default function CountingGame({ onWin }) {
   return (
     <div className="counting-game glass-panel">
       <div className="header-row">
-        <ListenButton text={`כמה ${animal.name}ים יש כאן?`} />
-        <h2>כמה יש כאן?</h2>
+        <ListenButton text="ספרי את הפריטים ובחרי את המספר הנכון" />
+        <h2>ספרי את הפריטים ובחרי את המספר הנכון</h2>
       </div>
 
       <div className="objects-container">

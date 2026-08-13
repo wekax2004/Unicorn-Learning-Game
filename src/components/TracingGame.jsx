@@ -134,7 +134,7 @@ export default function TracingGame({ onWin }) {
       ) : (
         <div className="canvas-container glass-panel" style={{ padding: '2rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-            <ListenButton text={`ציירי את ${targetSymbol}`} />
+            <ListenButton text="כתבי את האותיות" />
             <h2 style={{ margin: 0 }}>ציירי את {targetSymbol}:</h2>
           </div>
           <canvas
