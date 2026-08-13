@@ -119,39 +119,29 @@ export default function MazeGame({ onWin }) {
                 data-end={isEnd}
               >
                 {isEnd && <span className="maze-star">⭐</span>}
+                {isStart && (
+                  <motion.div
+                    key={`unicorn-${resetCount}`}
+                    className="maze-unicorn"
+                    drag
+                    dragMomentum={false}
+                    dragElastic={0}
+                    dragConstraints={containerRef}
+                    onDrag={handleDrag}
+                    style={{
+                      zIndex: 10,
+                      cursor: 'grab',
+                      fontSize: '3.5rem'
+                    }}
+                    whileTap={{ cursor: 'grabbing', scale: 1.1 }}
+                  >
+                    🦄
+                  </motion.div>
+                )}
               </div>
             );
           })
         ))}
-        
-        {/* The Unicorn is absolutely positioned and draggable over the grid */}
-        <motion.div
-          key={`unicorn-${resetCount}`}
-          className="maze-unicorn"
-          drag
-          dragMomentum={false}
-          dragElastic={0}
-          dragConstraints={containerRef}
-          onDrag={handleDrag}
-          style={{
-            // Position unicorn at the start cell initially. 
-            // In a 4x4 grid, if 'S' is at 0,0 it's top left.
-            position: 'absolute',
-            top: `${(maze.grid.findIndex(row => row.includes('S'))) * 25}%`,
-            left: `${(maze.grid.find(row => row.includes('S')).indexOf('S')) * 25}%`,
-            width: '25%',
-            height: '25%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '3.5rem',
-            zIndex: 10,
-            cursor: 'grab'
-          }}
-          whileTap={{ cursor: 'grabbing', scale: 1.1 }}
-        >
-          🦄
-        </motion.div>
       </div>
     </div>
   );

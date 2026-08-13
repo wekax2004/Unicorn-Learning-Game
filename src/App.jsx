@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './App.css';
 import HoldButton from './components/HoldButton';
 import MatchingGame from './components/MatchingGame';
@@ -9,10 +9,21 @@ import PuzzleGame from './components/PuzzleGame';
 import SortingGame from './components/SortingGame';
 import MemoryGame from './components/MemoryGame';
 import IdentifyGame from './components/IdentifyGame';
-import { Sparkles, Route, Shapes, PenTool, Hash, Puzzle, Combine, Grip, Search } from 'lucide-react';
+import ColoringGame from './components/ColoringGame';
+import SizeGame from './components/SizeGame';
+import StickerBook from './components/StickerBook';
+import { Sparkles, Route, Shapes, PenTool, Hash, Puzzle, Combine, Grip, Search, Star, Music, Music2, Palette, Maximize } from 'lucide-react';
 
 function App() {
   const [currentView, setCurrentView] = useState('hub');
+  const [musicPlaying, setMusicPlaying] = useState(false);
+  const audioRef = useRef(null);
+  
+  // Progression System
+  const [wins, setWins] = useState(() => {
+    const saved = localStorage.getItem('unicornWins');
+    return saved ? parseInt(saved, 10) : 0;
+  });
 
   const games = [
     { id: 'matching', name: 'התאמה', icon: Shapes, color: '#fbcfe8' },
@@ -22,7 +33,9 @@ function App() {
     { id: 'puzzle', name: 'פאזל', icon: Puzzle, color: '#86efac' },
     { id: 'sorting', name: 'מיון', icon: Combine, color: '#93c5fd' },
     { id: 'memory', name: 'זיכרון', icon: Grip, color: '#fca5a5' },
-    { id: 'identify', name: 'זיהוי', icon: Search, color: '#fcd34d' }
+    { id: 'identify', name: 'זיהוי', icon: Search, color: '#fcd34d' },
+    { id: 'coloring', name: 'צביעה', icon: Palette, color: '#fb923c' },
+    { id: 'size', name: 'גודל', icon: Maximize, color: '#34d399' }
   ];
 
   const playRandom = () => {
@@ -31,6 +44,11 @@ function App() {
   };
 
   const handleWin = () => {
+    // Increment wins for stickers
+    const newWins = wins + 1;
+    setWins(newWins);
+    localStorage.setItem('unicornWins', newWins.toString());
+
     // Find current index and move to next game
     const currentIndex = games.findIndex(g => g.id === currentView);
     if (currentIndex !== -1) {
@@ -50,6 +68,7 @@ function App() {
           </HoldButton>
         </div>
         <div className="game-content">
+          {currentView === 'stickers' && <StickerBook wins={wins} onClose={() => setCurrentView('hub')} />}
           {currentView === 'matching' && <MatchingGame onWin={handleWin} />}
           {currentView === 'maze' && <MazeGame onWin={handleWin} />}
           {currentView === 'tracing' && <TracingGame onWin={handleWin} />}
@@ -58,27 +77,46 @@ function App() {
           {currentView === 'sorting' && <SortingGame onWin={handleWin} />}
           {currentView === 'memory' && <MemoryGame onWin={handleWin} />}
           {currentView === 'identify' && <IdentifyGame onWin={handleWin} />}
-          {currentView !== 'matching' && currentView !== 'maze' && currentView !== 'tracing' && currentView !== 'counting' && currentView !== 'puzzle' && currentView !== 'sorting' && currentView !== 'memory' && currentView !== 'identify' && (
-            <>
-              <h1>{games.find(g => g.id === currentView)?.name}</h1>
-              <p>המשחק בבניה!</p>
-            </>
-          )}
+          {currentView === 'coloring' && <ColoringGame onWin={handleWin} />}
+          {currentView === 'size' && <SizeGame onWin={handleWin} />}
         </div>
       </div>
     );
   }
 
+  const toggleMusic = () => {
+    if (musicPlaying) {
+      audioRef.current?.pause();
+    } else {
+      audioRef.current?.play().catch(e => console.log("Audio play blocked", e));
+    }
+    setMusicPlaying(!musicPlaying);
+  };
+
   return (
     <div className="hub-container">
+      <audio ref={audioRef} loop src="https://cdn.pixabay.com/download/audio/2022/10/14/audio_9939f792cb.mp3?filename=happy-kids-114751.mp3" />
+      
       <div className="hero-section">
+        <button className="music-toggle-btn" onClick={toggleMusic} aria-label="Toggle Music">
+          {musicPlaying ? <Music size={24} /> : <Music2 size={24} color="#ccc" />}
+        </button>
+
         <div className="unicorn-mascot">🦄</div>
         <h1>משחק הקסם שלי</h1>
-        <button className="play-random-btn" onClick={playRandom}>
-          <Sparkles className="inline-icon" />
-          שחקי עכשיו!
-          <Sparkles className="inline-icon" />
-        </button>
+        
+        <div className="hub-actions">
+          <button className="play-random-btn" onClick={playRandom}>
+            <Sparkles className="inline-icon" />
+            שחקי עכשיו!
+            <Sparkles className="inline-icon" />
+          </button>
+          
+          <button className="sticker-book-btn" onClick={() => setCurrentView('stickers')}>
+            <Star className="inline-icon" />
+            אלבום המדבקות
+          </button>
+        </div>
       </div>
 
       <div className="games-grid">

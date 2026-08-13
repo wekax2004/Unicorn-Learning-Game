@@ -1,0 +1,72 @@
+.sticker-book {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  width: 90%;
+  max-width: 800px;
+  position: relative;
+}
+
+.progress-info {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 1rem 2rem;
+  border-radius: 20px;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.8), 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.progress-info p {
+  margin: 0.5rem 0;
+  color: #555;
+}
+
+.progress-info strong {
+  color: #d946ef;
+  font-size: 1.5rem;
+}
+
+.stickers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  padding: 1rem;
+}
+
+.sticker-slot {
+  aspect-ratio: 1;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  background: rgba(255, 255, 255, 0.5);
+  border: 4px dashed #cbd5e1;
+  transition: all 0.3s ease;
+}
+
+.sticker-slot.unlocked {
+  border-style: solid;
+  border-color: #fbcfe8;
+  background: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.sticker-placeholder {
+  color: #cbd5e1;
+  font-weight: bold;
+  font-size: 2.5rem;
+}
+
+.sticker-emoji {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-5px) rotate(5deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
