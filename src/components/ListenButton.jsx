@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Volume2 } from 'lucide-react';
 import './ListenButton.css';
 
@@ -17,12 +17,17 @@ export default function ListenButton({ text }) {
     // Cancel previous speech to prevent queue build-up
     window.speechSynthesis.cancel();
 
-    // Small timeout for iOS Safari to process the cancel before speaking
     setTimeout(() => {
       const msg = new SpeechSynthesisUtterance(text);
       msg.lang = 'he-IL';
+
+      // Explicitly find and assign a Hebrew voice (helps on Windows PC / Chrome)
+      const voices = window.speechSynthesis.getVoices();
+      const hebrewVoice = voices.find(v => v.lang.includes('he') || v.lang.includes('HE') || v.lang.includes('iw'));
+      if (hebrewVoice) {
+        msg.voice = hebrewVoice;
+      }
       
-      // Safari hack: store on window to prevent garbage collection
       window.currentUtterance = msg;
       
       msg.onstart = () => setIsPlaying(true);
@@ -34,7 +39,6 @@ export default function ListenButton({ text }) {
       
       window.speechSynthesis.speak(msg);
       
-      // If it doesn't start playing within 1 second, it might be blocked or missing voice
       setTimeout(() => {
         if (!window.speechSynthesis.speaking) {
           setIsPlaying(false);
@@ -43,6 +47,13 @@ export default function ListenButton({ text }) {
       }, 1000);
     }, 50);
   };
+
+  // Ensure voices are loaded ahead of time
+  useEffect(() => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.getVoices();
+    }
+  }, []);
 
   return (
     <button 
