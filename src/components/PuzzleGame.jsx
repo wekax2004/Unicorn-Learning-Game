@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+﻿import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
 import ListenButton from './ListenButton';
@@ -6,10 +6,10 @@ import { playPop, playSuccess } from '../utils/audio';
 import './PuzzleGame.css';
 
 const DIFFICULTIES = [
-  { id: 'easy', label: '4 חלקים', cols: 2, rows: 2 },
-  { id: 'medium', label: '9 חלקים', cols: 3, rows: 3 },
-  { id: 'hard', label: '16 חלקים', cols: 4, rows: 4 },
-  { id: 'expert', label: '30 חלקים', cols: 6, rows: 5 }
+  { id: 'easy', label: '4 ׳—׳׳§׳™׳', cols: 2, rows: 2 },
+  { id: 'medium', label: '9 ׳—׳׳§׳™׳', cols: 3, rows: 3 },
+  { id: 'hard', label: '16 ׳—׳׳§׳™׳', cols: 4, rows: 4 },
+  { id: 'expert', label: '30 ׳—׳׳§׳™׳', cols: 6, rows: 5 }
 ];
 
 const ANIMAL_PHOTOS = [
@@ -24,7 +24,7 @@ const ANIMAL_PHOTOS = [
 ];
 
 export default function PuzzleGame({ onWin }) {
-  const [difficulty, setDifficulty] = useState(null);
+  const [difficulty] = useState(() => DIFFICULTIES[Math.floor(Math.random() * DIFFICULTIES.length)]);
   const [placedPieces, setPlacedPieces] = useState([]);
   const [won, setWon] = useState(false);
 
@@ -82,33 +82,13 @@ export default function PuzzleGame({ onWin }) {
     }
   };
 
-  if (!difficulty) {
-    return (
-      <div className="puzzle-game glass-panel">
-        <div className="header-row">
-          <ListenButton text="בחרי רמת קושי לפאזל" />
-          <h2>בחרי רמה</h2>
-        </div>
-        <div className="difficulty-grid">
-          {DIFFICULTIES.map(diff => (
-            <button 
-              key={diff.id} 
-              className="diff-btn"
-              onClick={() => setDifficulty(diff)}
-            >
-              {diff.label}
-            </button>
-          ))}
-        </div>
-      </div>
-    );
-  }
+
 
   if (won) {
     return (
       <div className="success-screen">
         <CheckCircle2 size={120} color="#86efac" />
-        <h1>כל הכבוד! הפאזל הושלם!</h1>
+        <h1>׳›׳ ׳”׳›׳‘׳•׳“! ׳”׳₪׳׳–׳ ׳”׳•׳©׳׳!</h1>
         <img src={imageSrc} alt="Completed Puzzle" className="completed-puzzle-img" />
       </div>
     );
@@ -117,8 +97,8 @@ export default function PuzzleGame({ onWin }) {
   return (
     <div className="puzzle-game glass-panel">
       <div className="header-row" style={{ marginBottom: '1rem' }}>
-        <ListenButton text="גררי את החלקים למקום הנכון להשלמת התמונה" />
-        <h2 style={{ fontSize: '1.5rem', margin: 0 }}>השלימי את הפאזל</h2>
+        <ListenButton text="׳’׳¨׳¨׳™ ׳׳× ׳”׳—׳׳§׳™׳ ׳׳׳§׳•׳ ׳”׳ ׳›׳•׳ ׳׳”׳©׳׳׳× ׳”׳×׳׳•׳ ׳”" />
+        <h2 style={{ fontSize: '1.5rem', margin: 0 }}>׳”׳©׳׳™׳׳™ ׳׳× ׳”׳₪׳׳–׳</h2>
       </div>
 
       <div className="puzzle-layout">
@@ -187,3 +167,4 @@ export default function PuzzleGame({ onWin }) {
     </div>
   );
 }
+
