@@ -24,7 +24,7 @@ export default function BalloonPop({ onWin }) {
         const newBalloon = {
           id: Date.now() + Math.random(),
           color: COLORS[Math.floor(Math.random() * COLORS.length)],
-          x: Math.random() * 80 + 10, // 10% to 90% width
+          x: Math.random() * 60 + 10, // 10% to 70% width to prevent right-side clipping
           speed: Math.random() * 2 + 3 // 3 to 5 seconds to float up
         };
         return [...prev, newBalloon];

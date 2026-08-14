@@ -3,10 +3,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
   padding: 2rem;
-  /* background is now global in index.css */
+  overflow-y: auto;
+  padding-bottom: 5rem;
 }
 
 .hero-section {

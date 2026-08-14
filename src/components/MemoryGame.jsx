@@ -94,13 +94,9 @@ export default function MemoryGame({ onWin }) {
     );
   }
 
-  // Adjust grid columns based on card count to keep it looking nice
-  let gridStyle = {};
-  if (difficulty.pairs >= 12) {
-    gridStyle = { gridTemplateColumns: 'repeat(auto-fit, minmax(60px, 1fr))' };
-  } else if (difficulty.pairs >= 8) {
-    gridStyle = { gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))' };
-  }
+  // Use auto-fit grid so cards never form a single row if they don't fit
+  const minWidth = difficulty.pairs >= 12 ? '50px' : (difficulty.pairs >= 8 ? '60px' : '75px');
+  const gridStyle = { gridTemplateColumns: `repeat(auto-fit, minmax(${minWidth}, 1fr))` };
 
   return (
     <div className="memory-game glass-panel" style={{ overflowY: 'auto', maxHeight: '100vh', paddingBottom: '5rem' }}>
