@@ -5,24 +5,52 @@ import { playPop, playSuccess } from '../utils/audio';
 import { ANIMALS, getRandomItems } from '../utils/content';
 import './MemoryGame.css';
 
+const DIFFICULTIES = [
+  { id: 'easy', label: '2 זוגות', pairs: 2 },
+  { id: 'medium', label: '4 זוגות', pairs: 4 },
+  { id: 'hard', label: '8 זוגות', pairs: 8 },
+  { id: 'expert', label: '12 זוגות', pairs: 12 },
+  { id: 'insane', label: '20 זוגות', pairs: 20 }
+];
+
 export default function MemoryGame({ onWin }) {
+  const [difficulty, setDifficulty] = useState(null);
   const [cards, setCards] = useState([]);
   const [flipped, setFlipped] = useState([]);
   const [matched, setMatched] = useState([]);
   const [won, setWon] = useState(false);
 
   useEffect(() => {
-    // Pick 2 random animals, duplicate them, and shuffle
-    const picked = getRandomItems(ANIMALS, 2);
+    if (!difficulty) return;
+    
+    // Pick N random animals, duplicate them, and shuffle
+    // Ensure we don't request more animals than exist in the dictionary!
+    // The ANIMALS array currently has a limited number. Let's make sure it handles up to 20.
+    // If we request 20 but ANIMALS has 10, getRandomItems might return duplicates or fail.
+    // To fix this, if pairs > ANIMALS.length, we can just use ANIMALS and cycle through them.
+    let picked = [];
+    if (difficulty.pairs <= ANIMALS.length) {
+      picked = getRandomItems(ANIMALS, difficulty.pairs);
+    } else {
+      // If we need more pairs than available animals, cycle through them
+      for (let i = 0; i < difficulty.pairs; i++) {
+        picked.push(ANIMALS[i % ANIMALS.length]);
+      }
+    }
+    
     const pairs = [...picked, ...picked];
     const shuffled = pairs.sort(() => 0.5 - Math.random());
     setCards(shuffled.map((item, idx) => ({ ...item, uniqueId: `${item.id}-${idx}` })));
-  }, []);
+  }, [difficulty]);
 
   const handleCardClick = (index) => {
     if (flipped.length === 2) return;
     if (flipped.includes(index)) return;
-    if (matched.includes(cards[index].id)) return;
+    if (matched.includes(cards[index].id)) return; // Use uniqueId for logic if duplicated animals!
+    // Wait, if we use duplicate animals because of 'insane' mode, card.id might match 4 cards!
+    // So we must match by card.id, but ensure we don't accidentally match 3+ cards at once.
+    // To be safe, we'll just check if the specific card index is already matched.
+    if (matched.includes(cards[index].uniqueId)) return;
 
     playPop();
     const newFlipped = [...flipped, index];
@@ -36,8 +64,8 @@ export default function MemoryGame({ onWin }) {
         // Match!
         setTimeout(() => {
           setMatched(prev => {
-            const newMatched = [...prev, card1.id];
-            if (newMatched.length === 2) {
+            const newMatched = [...prev, card1.uniqueId, card2.uniqueId];
+            if (newMatched.length === cards.length) {
               playSuccess();
               setWon(true);
               if (onWin) setTimeout(onWin, 2500);
@@ -55,6 +83,28 @@ export default function MemoryGame({ onWin }) {
     }
   };
 
+  if (!difficulty) {
+    return (
+      <div className="memory-game glass-panel">
+        <div className="header-row">
+          <ListenButton text="בחרי רמת קושי למשחק הזיכרון" />
+          <h2>בחרי רמה</h2>
+        </div>
+        <div className="difficulty-grid">
+          {DIFFICULTIES.map(diff => (
+            <button 
+              key={diff.id} 
+              className="diff-btn"
+              onClick={() => setDifficulty(diff)}
+            >
+              {diff.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   if (won) {
     return (
       <div className="success-screen">
@@ -64,21 +114,30 @@ export default function MemoryGame({ onWin }) {
     );
   }
 
+  // Adjust grid columns based on card count to keep it looking nice
+  let gridStyle = {};
+  if (difficulty.pairs >= 12) {
+    gridStyle = { gridTemplateColumns: 'repeat(auto-fit, minmax(60px, 1fr))' };
+  } else if (difficulty.pairs >= 8) {
+    gridStyle = { gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))' };
+  }
+
   return (
-    <div className="memory-game glass-panel">
+    <div className="memory-game glass-panel" style={{ overflowY: 'auto', maxHeight: '100vh', paddingBottom: '5rem' }}>
       <div className="header-row">
         <ListenButton text="מצאי את הזוגות התואמים" />
         <h2>מצאי זוגות</h2>
       </div>
 
-      <div className="memory-grid">
+      <div className="memory-grid" style={gridStyle}>
         {cards.map((card, index) => {
-          const isFlipped = flipped.includes(index) || matched.includes(card.id);
+          const isFlipped = flipped.includes(index) || matched.includes(card.uniqueId);
           return (
             <div 
               key={card.uniqueId} 
               className={`memory-card ${isFlipped ? 'flipped' : ''}`}
               onClick={() => handleCardClick(index)}
+              style={difficulty.pairs >= 12 ? { width: '50px', height: '50px', fontSize: '1.5rem' } : {}}
             >
               <div className="card-inner">
                 <div className="card-front">
