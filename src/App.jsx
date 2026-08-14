@@ -12,11 +12,12 @@ import IdentifyGame from './components/IdentifyGame';
 import ColoringGame from './components/ColoringGame';
 import SizeGame from './components/SizeGame';
 import StickerBook from './components/StickerBook';
-import { Sparkles, Route, Shapes, PenTool, Hash, Puzzle, Combine, Grip, Search, Star, Music, Music2, Palette, Maximize } from 'lucide-react';
+import { Sparkles, Route, Shapes, PenTool, Hash, Puzzle, Combine, Grip, Search, Star, Music, Music2, Palette, Maximize, Settings, X } from 'lucide-react';
 
 function App() {
   const [currentView, setCurrentView] = useState('hub');
   const [musicPlaying, setMusicPlaying] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const audioRef = useRef(null);
   
   // Progression System
@@ -97,10 +98,16 @@ function App() {
     <div className="hub-container">
       <audio ref={audioRef} loop src="https://cdn.pixabay.com/download/audio/2022/10/14/audio_9939f792cb.mp3?filename=happy-kids-114751.mp3" />
       
-      <div className="hero-section">
+      <div className="hero-section" style={{ flex: 1, justifyContent: 'center', margin: 0 }}>
         <button className="music-toggle-btn" onClick={toggleMusic} aria-label="Toggle Music">
           {musicPlaying ? <Music size={24} /> : <Music2 size={24} color="#ccc" />}
         </button>
+        
+        <div className="settings-btn" style={{ position: 'absolute', top: '1rem', left: '1rem' }}>
+          <HoldButton onComplete={() => setShowMenu(true)} className="music-toggle-btn" style={{ position: 'relative', top: 0, left: 0, padding: 0 }}>
+            <Settings size={24} color="#64748b" />
+          </HoldButton>
+        </div>
 
         <div className="unicorn-mascot">🦄</div>
         <h1>משחק הקסם שלי</h1>
@@ -119,22 +126,35 @@ function App() {
         </div>
       </div>
 
-      <div className="games-grid">
-        {games.map(game => {
-          const Icon = game.icon;
-          return (
-            <button 
-              key={game.id} 
-              className="game-card"
-              style={{ backgroundColor: game.color }}
-              onClick={() => setCurrentView(game.id)}
-            >
-              <Icon size={48} />
-              <h2>{game.name}</h2>
+      {showMenu && (
+        <div className="menu-overlay" onClick={() => setShowMenu(false)}>
+          <div className="menu-modal" onClick={e => e.stopPropagation()}>
+            <button className="close-menu-btn" onClick={() => setShowMenu(false)}>
+              <X size={24} />
             </button>
-          );
-        })}
-      </div>
+            <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}>תפריט הורים: בחירת משחק</h2>
+            <div className="games-grid">
+              {games.map(game => {
+                const Icon = game.icon;
+                return (
+                  <button 
+                    key={game.id} 
+                    className="game-card"
+                    style={{ backgroundColor: game.color }}
+                    onClick={() => {
+                      setCurrentView(game.id);
+                      setShowMenu(false);
+                    }}
+                  >
+                    <Icon size={48} />
+                    <h2>{game.name}</h2>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
