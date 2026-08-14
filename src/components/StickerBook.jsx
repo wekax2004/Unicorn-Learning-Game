@@ -3,15 +3,11 @@ import { motion } from 'framer-motion';
 import HoldButton from './HoldButton';
 import ListenButton from './ListenButton';
 import './StickerBook.css';
+import { ALL_STICKERS } from '../utils/content';
 
-const ALL_STICKERS = [
-  '🦄', '🦋', '🌈', '👑', '⭐', '🎈', '🍭', '🎀', '🌸', '💖', 
-  '🍓', '🐬', '🐥', '🐰', '🧜‍♀️', '🏰', '🎨', '🧁', '🍦', '🎁'
-];
-
-export default function StickerBook({ wins, onClose }) {
-  // 1 sticker for every 3 wins
-  const earnedCount = Math.floor(wins / 3);
+export default function StickerBook({ wins, claimedStickers, onClose }) {
+  // Use claimedStickers instead of raw wins / 3, so they only unlock after opening the chest!
+  const earnedCount = claimedStickers;
   
   return (
     <div className="sticker-book glass-panel">

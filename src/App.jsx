@@ -11,9 +11,12 @@ import MemoryGame from './components/MemoryGame';
 import IdentifyGame from './components/IdentifyGame';
 import ColoringGame from './components/ColoringGame';
 import SizeGame from './components/SizeGame';
+import BalloonPop from './components/BalloonPop';
 import StickerBook from './components/StickerBook';
+import TreasureChest from './components/TreasureChest';
 import { fireConfetti } from './utils/confetti';
-import { Sparkles, Route, Shapes, PenTool, Hash, Puzzle, Combine, Grip, Search, Star, Music, Music2, Palette, Maximize, Settings, X } from 'lucide-react';
+import { ALL_STICKERS } from './utils/content';
+import { Sparkles, Route, Shapes, PenTool, Hash, Puzzle, Combine, Grip, Search, Star, Music, Music2, Palette, Maximize, Target, Settings, X } from 'lucide-react';
 
 function App() {
   const [currentView, setCurrentView] = useState('hub');
@@ -41,6 +44,11 @@ function App() {
     const saved = localStorage.getItem('unicornWins');
     return saved ? parseInt(saved, 10) : 0;
   });
+  
+  const [claimedStickers, setClaimedStickers] = useState(() => {
+    const saved = localStorage.getItem('claimedStickers');
+    return saved ? parseInt(saved, 10) : 0;
+  });
 
   const games = [
     { id: 'matching', name: 'התאמה', icon: Shapes, color: '#fbcfe8' },
@@ -52,7 +60,8 @@ function App() {
     { id: 'memory', name: 'זיכרון', icon: Grip, color: '#fca5a5' },
     { id: 'identify', name: 'זיהוי', icon: Search, color: '#fcd34d' },
     { id: 'coloring', name: 'צביעה', icon: Palette, color: '#fb923c' },
-    { id: 'size', name: 'גודל', icon: Maximize, color: '#34d399' }
+    { id: 'size', name: 'גודל', icon: Maximize, color: '#34d399' },
+    { id: 'balloons', name: 'בלונים', icon: Target, color: '#f472b6' }
   ];
 
   const playRandom = () => {
@@ -86,7 +95,7 @@ function App() {
           </HoldButton>
         </div>
         <div className="game-content">
-          {currentView === 'stickers' && <StickerBook wins={wins} onClose={() => setCurrentView('hub')} />}
+          {currentView === 'stickers' && <StickerBook wins={wins} claimedStickers={claimedStickers} onClose={() => setCurrentView('hub')} />}
           {currentView === 'matching' && <MatchingGame onWin={handleWin} />}
           {currentView === 'maze' && <MazeGame onWin={handleWin} />}
           {currentView === 'tracing' && <TracingGame onWin={handleWin} />}
@@ -97,6 +106,7 @@ function App() {
           {currentView === 'identify' && <IdentifyGame onWin={handleWin} />}
           {currentView === 'coloring' && <ColoringGame onWin={handleWin} />}
           {currentView === 'size' && <SizeGame onWin={handleWin} />}
+          {currentView === 'balloons' && <BalloonPop onWin={handleWin} />}
         </div>
       </div>
     );
@@ -129,6 +139,17 @@ function App() {
         <div className="unicorn-mascot">{theme === 'dino' ? '🦖' : '🦄'}</div>
         <h1>{childName ? `המשחק של ${childName}` : 'משחק הקסם שלי'}</h1>
         
+        {Math.floor(wins / 3) > claimedStickers && (
+          <TreasureChest 
+            stickerEmoji={ALL_STICKERS[claimedStickers] || '🎁'} 
+            onOpen={() => {
+              const newClaimed = claimedStickers + 1;
+              setClaimedStickers(newClaimed);
+              localStorage.setItem('claimedStickers', newClaimed.toString());
+            }} 
+          />
+        )}
+
         <div className="hub-actions">
           <button className="play-random-btn" onClick={playRandom}>
             <Sparkles className="inline-icon" />

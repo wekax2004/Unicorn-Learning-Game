@@ -1,0 +1,48 @@
+.balloon-pop-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+  padding: 1rem;
+}
+
+.balloon-area {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.balloon {
+  position: absolute;
+  width: 80px;
+  height: 100px;
+  border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+  box-shadow: inset -10px -10px 15px rgba(0,0,0,0.2), inset 10px 10px 10px rgba(255,255,255,0.4);
+  pointer-events: auto;
+  cursor: crosshair;
+}
+
+.balloon-knot {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0; 
+  height: 0; 
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 12px solid inherit; /* inherits from balloon background color? No, we'll just let it be semi transparent */
+  border-bottom-color: rgba(255,255,255,0.5);
+}

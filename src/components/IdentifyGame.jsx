@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
 import ListenButton from './ListenButton';
-import { playPop, playSuccess } from '../utils/audio';
+import { playPop, playSuccess, playAnimalSound } from '../utils/audio';
 import { ALL_OBJECTS, getRandomItems } from '../utils/content';
 import './IdentifyGame.css';
 
@@ -31,11 +31,13 @@ export default function IdentifyGame({ onWin }) {
 
   const handleTap = (item) => {
     if (item.id === targetItem.id) {
+      if (item.type === 'animal') playAnimalSound(item.id);
       playSuccess();
       setWon(true);
       if (onWin) setTimeout(onWin, 2500);
     } else {
-      playPop();
+      if (item.type === 'animal') playAnimalSound(item.id);
+      else playPop();
     }
   };
 
