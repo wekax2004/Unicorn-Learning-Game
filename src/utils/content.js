@@ -32,7 +32,14 @@ export const FRUITS_VEGGIES = [
   { id: 'f13', name: 'תירס', icon: '🌽', color: 'yellow', type: 'veg' },
   { id: 'f14', name: 'אגס', icon: '🍐', color: 'green', type: 'fruit' },
   { id: 'f15', name: 'דובדבן', icon: '🍒', color: 'red', type: 'fruit' },
-  { id: 'f16', name: 'פלפל', icon: '🫑', color: 'green', type: 'veg' }
+  { id: 'f16', name: 'פלפל', icon: '🫑', color: 'green', type: 'veg' },
+  { id: 'f17', name: 'פיצה', icon: '🍕', color: 'yellow', type: 'food' },
+  { id: 'f18', name: 'גלידה', icon: '🍦', color: 'white', type: 'food' },
+  { id: 'f19', name: 'סופגניה', icon: '🍩', color: 'brown', type: 'food' },
+  { id: 'f20', name: 'עוגה', icon: '🍰', color: 'white', type: 'food' },
+  { id: 'f21', name: 'המבורגר', icon: '🍔', color: 'brown', type: 'food' },
+  { id: 'f22', name: 'לחם', icon: '🍞', color: 'brown', type: 'food' },
+  { id: 'f23', name: 'גבינה', icon: '🧀', color: 'yellow', type: 'food' }
 ];
 
 export const ANIMALS = [
@@ -53,7 +60,15 @@ export const ANIMALS = [
   { id: 'a15', name: 'דולפין', icon: '🐬', type: 'animal' },
   { id: 'a16', name: 'פיל', icon: '🐘', type: 'animal' },
   { id: 'a17', name: 'נמר', icon: '🐯', type: 'animal' },
-  { id: 'a18', name: 'צב', icon: '🐢', type: 'animal' }
+  { id: 'a18', name: 'צב', icon: '🐢', type: 'animal' },
+  { id: 'a19', name: 'זברה', icon: '🦓', type: 'animal' },
+  { id: 'a20', name: 'ג\'ירפה', icon: '🦒', type: 'animal' },
+  { id: 'a21', name: 'ברווז', icon: '🦆', type: 'animal' },
+  { id: 'a22', name: 'ינשוף', icon: '🦉', type: 'animal' },
+  { id: 'a23', name: 'דבורה', icon: '🐝', type: 'animal' },
+  { id: 'a24', name: 'פרפר', icon: '🦋', type: 'animal' },
+  { id: 'a25', name: 'נחש', icon: '🐍', type: 'animal' },
+  { id: 'a26', name: 'חיפושית', icon: '🐞', type: 'animal' }
 ];
 
 export const SHAPES = [
@@ -72,11 +87,37 @@ export const VEHICLES = [
   { id: 'v5', name: 'ספינה', icon: '🚢', type: 'vehicle' },
   { id: 'v6', name: 'אופניים', icon: '🚲', type: 'vehicle' },
   { id: 'v7', name: 'משאית', icon: '🚚', type: 'vehicle' },
-  { id: 'v8', name: 'טרקטור', icon: '🚜', type: 'vehicle' }
+  { id: 'v8', name: 'טרקטור', icon: '🚜', type: 'vehicle' },
+  { id: 'v9', name: 'הליקופטר', icon: '🚁', type: 'vehicle' },
+  { id: 'v10', name: 'אמבולנס', icon: '🚑', type: 'vehicle' },
+  { id: 'v11', name: 'ניידת משטרה', icon: '🚓', type: 'vehicle' },
+  { id: 'v12', name: 'כבאית', icon: '🚒', type: 'vehicle' },
+  { id: 'v13', name: 'אופנוע', icon: '🏍️', type: 'vehicle' }
+];
+
+export const CLOTHING = [
+  { id: 'c1', name: 'חולצה', icon: '👕', type: 'clothing' },
+  { id: 'c2', name: 'מכנסיים', icon: '👖', type: 'clothing' },
+  { id: 'c3', name: 'שמלה', icon: '👗', type: 'clothing' },
+  { id: 'c4', name: 'נעליים', icon: '👟', type: 'clothing' },
+  { id: 'c5', name: 'כובע', icon: '🧢', type: 'clothing' },
+  { id: 'c6', name: 'משקפיים', icon: '👓', type: 'clothing' }
+];
+
+export const NATURE = [
+  { id: 'n1', name: 'שמש', icon: '☀️', type: 'nature' },
+  { id: 'n2', name: 'ירח', icon: '🌙', type: 'nature' },
+  { id: 'n3', name: 'כוכב', icon: '⭐', type: 'nature' },
+  { id: 'n4', name: 'ענן', icon: '☁️', type: 'nature' },
+  { id: 'n5', name: 'גשם', icon: '🌧️', type: 'nature' },
+  { id: 'n6', name: 'שלג', icon: '❄️', type: 'nature' },
+  { id: 'n7', name: 'פרח', icon: '🌻', type: 'nature' },
+  { id: 'n8', name: 'עץ', icon: '🌳', type: 'nature' },
+  { id: 'n9', name: 'קשת בענן', icon: '🌈', type: 'nature' }
 ];
 
 // Master list for identification game
-export const ALL_OBJECTS = [...FRUITS_VEGGIES, ...ANIMALS, ...SHAPES, ...VEHICLES];
+export const ALL_OBJECTS = [...FRUITS_VEGGIES, ...ANIMALS, ...SHAPES, ...VEHICLES, ...CLOTHING, ...NATURE];
 
 export function getRandomItems(array, count) {
   const shuffled = [...array].sort(() => 0.5 - Math.random());
