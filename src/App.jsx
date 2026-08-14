@@ -12,6 +12,7 @@ import IdentifyGame from './components/IdentifyGame';
 import ColoringGame from './components/ColoringGame';
 import SizeGame from './components/SizeGame';
 import StickerBook from './components/StickerBook';
+import { fireConfetti } from './utils/confetti';
 import { Sparkles, Route, Shapes, PenTool, Hash, Puzzle, Combine, Grip, Search, Star, Music, Music2, Palette, Maximize, Settings, X } from 'lucide-react';
 
 function App() {
@@ -19,6 +20,21 @@ function App() {
   const [musicPlaying, setMusicPlaying] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const audioRef = useRef(null);
+
+  // Theme & Personalization
+  const [theme, setTheme] = useState(() => localStorage.getItem('unicornTheme') || 'unicorn');
+  const [childName, setChildName] = useState(() => localStorage.getItem('childName') || '');
+
+  useEffect(() => {
+    document.body.dataset.theme = theme;
+    localStorage.setItem('unicornTheme', theme);
+  }, [theme]);
+
+  const handleNameChange = (e) => {
+    const newName = e.target.value;
+    setChildName(newName);
+    localStorage.setItem('childName', newName);
+  };
   
   // Progression System
   const [wins, setWins] = useState(() => {
@@ -45,6 +61,7 @@ function App() {
   };
 
   const handleWin = () => {
+    fireConfetti();
     // Increment wins for stickers
     const newWins = wins + 1;
     setWins(newWins);
@@ -109,8 +126,8 @@ function App() {
           </HoldButton>
         </div>
 
-        <div className="unicorn-mascot">🦄</div>
-        <h1>משחק הקסם שלי</h1>
+        <div className="unicorn-mascot">{theme === 'dino' ? '🦖' : '🦄'}</div>
+        <h1>{childName ? `המשחק של ${childName}` : 'משחק הקסם שלי'}</h1>
         
         <div className="hub-actions">
           <button className="play-random-btn" onClick={playRandom}>
@@ -132,7 +149,35 @@ function App() {
             <button className="close-menu-btn" onClick={() => setShowMenu(false)}>
               <X size={24} />
             </button>
-            <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}>תפריט הורים: בחירת משחק</h2>
+            <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>תפריט הורים</h2>
+            
+            <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '15px', marginBottom: '2rem' }}>
+              <h3 style={{ margin: '0 0 1rem 0' }}>הגדרות אישיות</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', fontWeight: 'bold' }}>
+                  שם הילד/ה (לא חובה):
+                  <input 
+                    type="text" 
+                    value={childName} 
+                    onChange={handleNameChange}
+                    placeholder="למשל: נועה"
+                    style={{ padding: '0.8rem', borderRadius: '10px', border: '2px solid #cbd5e1', fontSize: '1.2rem' }}
+                  />
+                </label>
+                
+                <label style={{ display: 'flex', alignItems: 'center', gap: '1rem', fontWeight: 'bold' }}>
+                  נושא המשחק:
+                  <button 
+                    onClick={() => setTheme(theme === 'unicorn' ? 'dino' : 'unicorn')}
+                    style={{ padding: '0.5rem 1rem', fontSize: '1rem', flex: 1, backgroundColor: 'white', border: '2px solid var(--accent)' }}
+                  >
+                    {theme === 'unicorn' ? '🦄 חד-קרן ורוד' : '🦖 דינוזאור ירוק'}
+                  </button>
+                </label>
+              </div>
+            </div>
+
+            <h3 style={{ textAlign: 'center', marginBottom: '1rem' }}>בחירת משחק ספציפי</h3>
             <div className="games-grid">
               {games.map(game => {
                 const Icon = game.icon;

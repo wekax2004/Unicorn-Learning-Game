@@ -1,11 +1,28 @@
-:root {
+﻿:root {
+  /* Unicorn Theme (Default) */
   --primary: #fbcfe8; /* pastel pink */
   --secondary: #e9d5ff; /* pastel purple */
   --accent: #c084fc; /* darker purple */
   --background: #fdf4ff; /* very light pink/purple */
   --text: #4a044e; /* deep purple */
   --success: #86efac; /* pastel green */
-  
+  --bg-gradient-1: #fbcfe8;
+  --bg-gradient-2: #e9d5ff;
+  --bg-gradient-3: #bfdbfe;
+}
+
+[data-theme="dino"] {
+  --primary: #bbf7d0;
+  --secondary: #fef08a;
+  --accent: #4ade80;
+  --background: #f0fdf4;
+  --text: #14532d;
+  --success: #fde047;
+  --bg-gradient-1: #bbf7d0;
+  --bg-gradient-2: #fef08a;
+  --bg-gradient-3: #86efac;
+}
+:root {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -35,7 +52,7 @@ html, body {
   height: 100dvh;
   overflow: hidden; /* Prevent scrolling */
   touch-action: none; /* Prevent pinch zoom and pan */
-  background: linear-gradient(135deg, #fbcfe8, #e9d5ff, #bfdbfe);
+  background: linear-gradient(135deg, var(--bg-gradient-1), var(--bg-gradient-2), var(--bg-gradient-3));
   background-size: 400% 400%;
   animation: magic-bg 15s ease infinite;
 }
@@ -86,3 +103,4 @@ button:active {
   pointer-events: none;
   /* Sparkle animations will go here if needed */
 }
+
