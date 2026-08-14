@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   /* Unicorn Theme (Default) */
   --primary: #fbcfe8; /* pastel pink */
   --secondary: #e9d5ff; /* pastel purple */
@@ -50,8 +50,9 @@ html, body {
   width: 100vw;
   height: 100vh;
   height: 100dvh;
-  overflow: hidden; /* Prevent scrolling */
-  touch-action: none; /* Prevent pinch zoom and pan */
+  overflow: hidden; /* Prevent body scrolling, let internal divs scroll */
+  overscroll-behavior: none; /* Prevent pull-to-refresh and rubber-banding */
+  touch-action: manipulation; /* Disable double tap to zoom, but allow panning/scrolling */
   background: linear-gradient(135deg, var(--bg-gradient-1), var(--bg-gradient-2), var(--bg-gradient-3));
   background-size: 400% 400%;
   animation: magic-bg 15s ease infinite;

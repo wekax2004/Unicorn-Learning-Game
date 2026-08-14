@@ -94,9 +94,22 @@ export default function MemoryGame({ onWin }) {
     );
   }
 
-  // Use auto-fit grid so cards never form a single row if they don't fit
-  const minWidth = difficulty.pairs >= 12 ? '50px' : (difficulty.pairs >= 8 ? '60px' : '75px');
-  const gridStyle = { gridTemplateColumns: `repeat(auto-fit, minmax(${minWidth}, 1fr))` };
+  let cols = 4;
+  if (difficulty.pairs === 2) cols = 2; // 2x2 (4 cards)
+  else if (difficulty.pairs === 4) cols = 3; // 4x2? No, 8 cards -> maybe 4 cols, 2 rows. 
+  // Wait, let's use 4 cols for 8 cards.
+  
+  if (cards.length <= 4) cols = 2;
+  else if (cards.length <= 12) cols = 4;
+  else if (cards.length <= 16) cols = 4;
+  else cols = 5;
+
+  const minWidth = cards.length >= 24 ? '50px' : (cards.length >= 16 ? '60px' : '70px');
+  
+  // Use explicit repeat instead of auto-fit to force rows
+  const gridStyle = { 
+    gridTemplateColumns: `repeat(${cols}, minmax(${minWidth}, 1fr))` 
+  };
 
   return (
     <div className="memory-game glass-panel" style={{ overflowY: 'auto', maxHeight: '100vh', paddingBottom: '5rem' }}>
