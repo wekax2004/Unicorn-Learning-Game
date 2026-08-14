@@ -79,3 +79,10 @@
   color: var(--success);
   margin-top: 1rem;
 }
+@media (max-width: 768px) {
+  .target { width: 80px; height: 80px; font-size: 3rem; }
+  .draggable { width: 80px; height: 80px; font-size: 3rem; }
+  .targets-container { gap: 1rem; margin-top: 1rem; }
+  .draggables-container { gap: 1rem; margin-bottom: 1rem; }
+  .matching-game { padding: 1rem; }
+}

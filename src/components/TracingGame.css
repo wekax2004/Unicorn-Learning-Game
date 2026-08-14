@@ -54,3 +54,8 @@
   border-color: #4ade80;
   color: var(--text);
 }
+@media (max-width: 768px) {
+  .canvas-container h2 { font-size: 1.2rem; }
+  .drawing-canvas { border-width: 2px; }
+  .canvas-container { padding: 1rem !important; }
+}

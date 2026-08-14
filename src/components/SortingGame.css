@@ -73,3 +73,12 @@
   width: 80px;
   height: 80px;
 }
+@media (max-width: 768px) {
+  .basket { width: 100px; height: 100px; }
+  .sortable-item { width: 60px; height: 60px; }
+  .empty-slot { width: 60px; height: 60px; }
+  .item-icon { font-size: 2rem; }
+  .baskets-container { gap: 1rem; margin-bottom: 1rem; }
+  .items-container { gap: 1rem; }
+  .sorting-game { padding: 1rem; }
+}

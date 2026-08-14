@@ -35,3 +35,8 @@
 .identify-option .big-emoji {
   font-size: 5rem;
 }
+@media (max-width: 768px) {
+  .identify-option { width: 100px; height: 100px; }
+  .big-emoji { font-size: 3.5rem; }
+  .options-grid { gap: 1rem; }
+}

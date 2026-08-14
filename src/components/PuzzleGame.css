@@ -103,3 +103,9 @@
   margin-top: 2rem;
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
+@media (max-width: 768px) {
+  .diff-btn { font-size: 1.2rem; padding: 1rem; }
+  .puzzle-tray { min-height: 120px; padding: 1rem; }
+  .difficulty-grid { gap: 1rem; }
+  .puzzle-game { padding: 1rem; }
+}

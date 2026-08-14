@@ -88,3 +88,14 @@
 .placeholder {
   width: 140px;
 }
+@media (max-width: 768px) {
+  .big-basket { font-size: 4rem; }
+  .small-basket { font-size: 2rem; }
+  .big-item { width: 80px; height: 80px; font-size: 3.5rem; }
+  .placeholder { width: 80px; }
+  .small-item { width: 50px; height: 50px; font-size: 2rem; }
+  .basket-area { width: 48%; padding: 1rem; }
+  .items-container { height: 100px; margin-top: 1rem; }
+  .baskets-container { margin: 1rem 0; gap: 1rem; }
+  .size-game { padding: 1rem; }
+}

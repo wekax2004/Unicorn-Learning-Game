@@ -46,3 +46,7 @@
   from { transform: scale(1); }
   to { transform: scale(1.2); }
 }
+@media (max-width: 768px) {
+  .maze-board { width: 280px; height: 280px; }
+  .maze-game { padding: 1rem; }
+}

@@ -93,3 +93,13 @@
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
 }
+@media (max-width: 768px) {
+  .animal-icon { font-size: 2.5rem; }
+  .drop-zone { width: 80px; height: 80px; }
+  .draggable-number { width: 60px; height: 60px; font-size: 1.8rem; }
+  .objects-container { min-height: 100px; padding: 1rem; margin-bottom: 1rem; gap: 0.5rem; }
+  .header-row h2 { font-size: 1.5rem; }
+  .header-row { margin-bottom: 1rem; }
+  .numbers-container { gap: 1rem; margin-bottom: 1rem; }
+  .counting-game { padding: 1rem; }
+}
