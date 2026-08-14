@@ -32,6 +32,7 @@ html, body {
   padding: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden; /* Prevent scrolling */
   touch-action: none; /* Prevent pinch zoom and pan */
   background: linear-gradient(135deg, #fbcfe8, #e9d5ff, #bfdbfe);
