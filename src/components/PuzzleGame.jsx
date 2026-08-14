@@ -1,9 +1,8 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
 import ListenButton from './ListenButton';
 import { playPop, playSuccess } from '../utils/audio';
-import { ANIMALS } from '../utils/content';
 import './PuzzleGame.css';
 
 const DIFFICULTIES = [
@@ -13,54 +12,26 @@ const DIFFICULTIES = [
   { id: 'expert', label: '30 חלקים', cols: 6, rows: 5 }
 ];
 
+const ANIMAL_PHOTOS = [
+  'https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?auto=format&fit=crop&q=80&w=600&h=500', // Cat
+  'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=600&h=500', // Dog
+  'https://images.unsplash.com/photo-1534567153574-2b12153a87f0?auto=format&fit=crop&q=80&w=600&h=500', // Bunny
+  'https://images.unsplash.com/photo-1550258859-d088c27e2a9d?auto=format&fit=crop&q=80&w=600&h=500', // Pig
+  'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&q=80&w=600&h=500', // Puppy
+  'https://images.unsplash.com/photo-1456926631375-92c8ce872def?auto=format&fit=crop&q=80&w=600&h=500', // Leopard
+  'https://images.unsplash.com/photo-1504006833117-8886a355efbf?auto=format&fit=crop&q=80&w=600&h=500', // Fox
+  'https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?auto=format&fit=crop&q=80&w=600&h=500'  // Panda
+];
+
 export default function PuzzleGame({ onWin }) {
   const [difficulty, setDifficulty] = useState(null);
   const [placedPieces, setPlacedPieces] = useState([]);
   const [won, setWon] = useState(false);
-  const [imageSrc, setImageSrc] = useState('');
 
-  // Choose a random animal emoji for the puzzle
-  const emoji = useMemo(() => {
-    return ANIMALS[Math.floor(Math.random() * ANIMALS.length)].icon;
+  // Choose a random real animal photo
+  const imageSrc = useMemo(() => {
+    return ANIMAL_PHOTOS[Math.floor(Math.random() * ANIMAL_PHOTOS.length)];
   }, []);
-
-    // Generate a high-res image from the emoji using Canvas!
-  useEffect(() => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 600;
-    canvas.height = 500;
-    const ctx = canvas.getContext('2d');
-    
-    // Background gradient
-    const gradient = ctx.createLinearGradient(0, 0, 600, 500);
-    gradient.addColorStop(0, '#fbcfe8'); // pink
-    gradient.addColorStop(0.5, '#fde047'); // yellow
-    gradient.addColorStop(1, '#6ee7b7'); // mint
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 600, 500);
-    
-    // Draw dense colorful polka dots so no piece is blank
-    const colors = ['#f472b6', '#38bdf8', '#fbbf24', '#a3e635', '#c084fc', '#fb7185'];
-    for (let x = 20; x < 600; x += 40) {
-      for (let y = 20; y < 500; y += 40) {
-        ctx.beginPath();
-        const px = x + (Math.random() * 10 - 5);
-        const py = y + (Math.random() * 10 - 5);
-        const radius = Math.random() * 15 + 5;
-        ctx.arc(px, py, radius, 0, Math.PI * 2);
-        ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)] + '99';
-        ctx.fill();
-      }
-    }
-    
-    // Draw Emoji HUGE so it fills the board
-    ctx.font = '450px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(emoji, 300, 270); 
-    
-    setImageSrc(canvas.toDataURL('image/png'));
-  }, [emoji]);
 
   // Generate pieces based on selected difficulty
   const pieces = useMemo(() => {
@@ -76,7 +47,9 @@ export default function PuzzleGame({ onWin }) {
           id: `${r}-${c}`,
           r,
           c,
-          bgX: (c / (difficulty.cols - 1)) * 100 || 0,
+          // Hebrew is RTL, so column 0 is rendered on the right. 
+          // We must invert the X axis so the rightmost piece shows the right side of the image!
+          bgX: ((difficulty.cols - 1 - c) / (difficulty.cols - 1)) * 100 || 0,
           bgY: (r / (difficulty.rows - 1)) * 100 || 0,
           width,
           height
