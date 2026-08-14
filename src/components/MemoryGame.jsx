@@ -1,4 +1,4 @@
-﻿import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import ListenButton from './ListenButton';
 import { playPop, playSuccess } from '../utils/audio';
@@ -6,11 +6,11 @@ import { ANIMALS, getRandomItems } from '../utils/content';
 import './MemoryGame.css';
 
 const DIFFICULTIES = [
-  { id: 'easy', label: '2 ׳–׳•׳’׳•׳×', pairs: 2 },
-  { id: 'medium', label: '4 ׳–׳•׳’׳•׳×', pairs: 4 },
-  { id: 'hard', label: '8 ׳–׳•׳’׳•׳×', pairs: 8 },
-  { id: 'expert', label: '12 ׳–׳•׳’׳•׳×', pairs: 12 },
-  { id: 'insane', label: '20 ׳–׳•׳’׳•׳×', pairs: 20 }
+  { id: 'easy', label: '2 זוגות', pairs: 2 },
+  { id: 'medium', label: '4 זוגות', pairs: 4 },
+  { id: 'hard', label: '8 זוגות', pairs: 8 },
+  { id: 'expert', label: '12 זוגות', pairs: 12 },
+  { id: 'insane', label: '20 זוגות', pairs: 20 }
 ];
 
 export default function MemoryGame({ onWin }) {
@@ -89,7 +89,7 @@ export default function MemoryGame({ onWin }) {
     return (
       <div className="success-screen">
         <CheckCircle2 size={120} color="#86efac" />
-        <h1>׳›׳ ׳”׳›׳‘׳•׳“!</h1>
+        <h1>כל הכבוד!</h1>
       </div>
     );
   }
@@ -105,8 +105,8 @@ export default function MemoryGame({ onWin }) {
   return (
     <div className="memory-game glass-panel" style={{ overflowY: 'auto', maxHeight: '100vh', paddingBottom: '5rem' }}>
       <div className="header-row">
-        <ListenButton text="׳׳¦׳׳™ ׳׳× ׳”׳–׳•׳’׳•׳× ׳”׳×׳•׳׳׳™׳" />
-        <h2>׳׳¦׳׳™ ׳–׳•׳’׳•׳×</h2>
+        <ListenButton text="מצאי את הזוגות התואמים" />
+        <h2>מצאי זוגות</h2>
       </div>
 
       <div className="memory-grid" style={gridStyle}>
@@ -121,7 +121,7 @@ export default function MemoryGame({ onWin }) {
             >
               <div className="card-inner">
                 <div className="card-front">
-                  <span>ג¨</span>
+                  <span>✨</span>
                 </div>
                 <div className="card-back">
                   <span className="card-icon">{card.icon}</span>
