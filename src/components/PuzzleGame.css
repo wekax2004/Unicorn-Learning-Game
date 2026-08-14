@@ -109,3 +109,14 @@
   .difficulty-grid { gap: 1rem; }
   .puzzle-game { padding: 1rem; }
 }
+@media (max-width: 768px) {
+  .puzzle-game {
+    overflow-y: auto;
+    max-height: 100vh;
+    padding-bottom: 5rem;
+  }
+}
+
+.draggable-piece {
+  touch-action: none; /* Crucial for framer motion drag on mobile */
+}
