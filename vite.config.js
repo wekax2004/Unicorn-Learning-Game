@@ -17,7 +17,7 @@ export default defineConfig({
         theme_color: '#ffffff',
         background_color: '#fdf4ff',
         display: 'fullscreen',
-        orientation: 'landscape',
+        orientation: 'portrait',
         icons: [
           {
             src: 'favicon.svg',
