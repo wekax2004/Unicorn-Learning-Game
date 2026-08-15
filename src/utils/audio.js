@@ -35,17 +35,46 @@ export const playPop = () => {
 
 export const playSuccess = () => {
   try {
-    const audio = new Audio('https://cdn.pixabay.com/download/audio/2022/03/15/audio_24f5ecb08e.mp3?filename=kids-cheering-10-sec-sound-effect-free-download-hd-320kbps-108092.mp3');
-    audio.play().catch(() => {
-      // Fallback to simple tone if auto-play is blocked
-      const ctx = getAudioContext();
-      const osc = ctx.createOscillator();
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(523.25, ctx.currentTime);
-      osc.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + 0.5);
-    });
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    
+    // Play a quick, happy, magical chime
+    const osc = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    
+    osc.type = 'sine';
+    
+    // Quick sweep up
+    osc.frequency.setValueAtTime(400, now);
+    osc.frequency.exponentialRampToValueAtTime(1200, now + 0.3);
+    
+    // Volume envelope
+    gainNode.gain.setValueAtTime(0, now);
+    gainNode.gain.linearRampToValueAtTime(0.3, now + 0.05);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+    
+    osc.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    
+    osc.start(now);
+    osc.stop(now + 0.5);
+    
+    // A second higher note that rings out like a bell
+    const osc2 = ctx.createOscillator();
+    const gainNode2 = ctx.createGain();
+    
+    osc2.type = 'triangle';
+    osc2.frequency.setValueAtTime(1200, now + 0.2);
+    
+    gainNode2.gain.setValueAtTime(0, now + 0.2);
+    gainNode2.gain.linearRampToValueAtTime(0.2, now + 0.25);
+    gainNode2.gain.exponentialRampToValueAtTime(0.01, now + 0.8);
+    
+    osc2.connect(gainNode2);
+    gainNode2.connect(ctx.destination);
+    
+    osc2.start(now + 0.2);
+    osc2.stop(now + 0.9);
   } catch (e) {
     console.warn("Audio play failed", e);
   }
