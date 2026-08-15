@@ -35,35 +35,31 @@ export const playPop = () => {
 
 export const playSuccess = () => {
   try {
-    const ctx = getAudioContext();
-    
-    const playNote = (freq, time, duration) => {
+    const audio = new Audio('https://cdn.pixabay.com/download/audio/2022/03/15/audio_24f5ecb08e.mp3?filename=kids-cheering-10-sec-sound-effect-free-download-hd-320kbps-108092.mp3');
+    audio.play().catch(() => {
+      // Fallback to simple tone if auto-play is blocked
+      const ctx = getAudioContext();
       const osc = ctx.createOscillator();
-      const gainNode = ctx.createGain();
-      
       osc.type = 'triangle';
-      osc.frequency.value = freq;
-      
-      gainNode.gain.setValueAtTime(0, time);
-      gainNode.gain.linearRampToValueAtTime(0.3, time + 0.05);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, time + duration);
-      
-      osc.connect(gainNode);
-      gainNode.connect(ctx.destination);
-      
-      osc.start(time);
-      osc.stop(time + duration);
-    };
-
-    const now = ctx.currentTime;
-    // C Major Arpeggio chime
-    playNote(523.25, now, 0.5); // C5
-    playNote(659.25, now + 0.1, 0.5); // E5
-    playNote(783.99, now + 0.2, 0.5); // G5
-    playNote(1046.50, now + 0.3, 1.0); // C6
+      osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+      osc.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.5);
+    });
   } catch (e) {
     console.warn("Audio play failed", e);
   }
+};
+
+export const speakHebrew = (text) => {
+  if (!window.speechSynthesis) return;
+  // Cancel any ongoing speech so it doesn't queue up forever
+  window.speechSynthesis.cancel();
+  
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'he-IL';
+  utterance.rate = 0.9; // Slightly slower for kids
+  window.speechSynthesis.speak(utterance);
 };
 
 const ANIMAL_SOUND_URLS = {

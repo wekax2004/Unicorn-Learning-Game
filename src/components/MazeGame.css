@@ -12,8 +12,6 @@
   width: 300px;
   height: 300px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(4, 1fr);
   gap: 4px;
   background-color: white;
   border-radius: 20px;

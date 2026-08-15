@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import ListenButton from './ListenButton';
-import { playPop, playSuccess } from '../utils/audio';
+import { playPop, playSuccess, speakHebrew } from '../utils/audio';
 import { FRUITS_VEGGIES, ANIMALS, COLORS, getRandomItems } from '../utils/content';
 import './SortingGame.css';
 
@@ -17,7 +17,9 @@ export default function SortingGame({ onWin }) {
     let generatedPrompt = '';
     
     if (selectedMode === 'color') {
-      pickedItems = getRandomItems(FRUITS_VEGGIES, 4);
+      // Pick items that actually have a defined color in COLORS
+      const colorableItems = FRUITS_VEGGIES.filter(i => i.color && COLORS[i.color]);
+      pickedItems = getRandomItems(colorableItems, 6);
       const uniqueColors = [...new Set(pickedItems.map(item => item.color))];
       generatedBaskets = uniqueColors.map(color => ({
         id: color,
@@ -28,8 +30,8 @@ export default function SortingGame({ onWin }) {
       generatedPrompt = 'מייני לפי צבע';
     } 
     else if (selectedMode === 'type') {
-      const fruits = getRandomItems(FRUITS_VEGGIES.filter(i => i.type === 'fruit'), 2);
-      const veggies = getRandomItems(FRUITS_VEGGIES.filter(i => i.type === 'veg'), 2);
+      const fruits = getRandomItems(FRUITS_VEGGIES.filter(i => i.type === 'fruit'), 4);
+      const veggies = getRandomItems(FRUITS_VEGGIES.filter(i => i.type === 'veg'), 4);
       pickedItems = [...fruits, ...veggies].sort(() => 0.5 - Math.random());
       
       generatedBaskets = [
@@ -40,8 +42,8 @@ export default function SortingGame({ onWin }) {
     }
     else {
       // category mode: Animals vs Food
-      const animals = getRandomItems(ANIMALS, 2);
-      const food = getRandomItems(FRUITS_VEGGIES, 2);
+      const animals = getRandomItems(ANIMALS, 4);
+      const food = getRandomItems(FRUITS_VEGGIES, 4);
       pickedItems = [...animals, ...food].sort(() => 0.5 - Math.random());
       
       generatedBaskets = [
@@ -122,6 +124,7 @@ export default function SortingGame({ onWin }) {
               className="sortable-item"
               drag
               dragSnapToOrigin
+              onDragStart={() => speakHebrew(item.name || item.color || item.id)}
               onDragEnd={(e, info) => handleDragEnd(e, info, item)}
               whileDrag={{ scale: 1.2, zIndex: 100 }}
             >

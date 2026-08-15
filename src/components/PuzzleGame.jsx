@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
 import ListenButton from './ListenButton';
-import { playPop, playSuccess } from '../utils/audio';
+import { playPop, playSuccess, speakHebrew } from '../utils/audio';
 import { ALL_OBJECTS, getRandomItems } from '../utils/content';
 import './PuzzleGame.css';
 
@@ -102,6 +102,7 @@ export default function PuzzleGame({ onWin }) {
                 className="draggable-emoji"
                 drag
                 dragSnapToOrigin
+                onDragStart={() => speakHebrew(item.name || item.id)}
                 onDragEnd={(e, info) => handleDragEnd(e, info, item)}
                 whileDrag={{ scale: 1.3, zIndex: 100 }}
               >

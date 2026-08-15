@@ -94,6 +94,28 @@ const MAZES = [
       ['#', '.', '.', '#'],
       ['#', '#', '.', 'E']
     ]
+  },
+  {
+    name: 'Hard Maze 1',
+    grid: [
+      ['S', '#', '#', '#', '#', '#'],
+      ['.', '.', '.', '.', '.', '#'],
+      ['#', '#', '#', '#', '.', '#'],
+      ['#', '.', '.', '.', '.', '#'],
+      ['#', '.', '#', '#', '#', '#'],
+      ['#', '.', '.', '.', '.', 'E']
+    ]
+  },
+  {
+    name: 'Hard Maze 2',
+    grid: [
+      ['S', '.', '.', '#', '#', '#'],
+      ['#', '#', '.', '#', '.', 'E'],
+      ['#', '.', '.', '#', '.', '#'],
+      ['#', '.', '#', '#', '.', '#'],
+      ['#', '.', '.', '.', '.', '#'],
+      ['#', '#', '#', '#', '#', '#']
+    ]
   }
 ];
 
@@ -149,7 +171,10 @@ export default function MazeGame({ onWin }) {
         <h2>עזרי לחד-קרן להגיע לכוכב!</h2>
       </div>
 
-      <div className="maze-grid-container" ref={containerRef}>
+      <div className="maze-grid-container" ref={containerRef} style={{
+        gridTemplateColumns: `repeat(${maze.grid[0].length}, 1fr)`,
+        gridTemplateRows: `repeat(${maze.grid.length}, 1fr)`
+      }}>
         {maze.grid.map((row, rowIndex) => (
           row.map((cell, colIndex) => {
             const isWall = cell === '#';
@@ -176,7 +201,7 @@ export default function MazeGame({ onWin }) {
                     style={{
                       zIndex: 10,
                       cursor: 'grab',
-                      fontSize: '3.5rem'
+                      fontSize: maze.grid.length > 4 ? '2.5rem' : '3.5rem'
                     }}
                     whileTap={{ cursor: 'grabbing', scale: 1.1 }}
                   >

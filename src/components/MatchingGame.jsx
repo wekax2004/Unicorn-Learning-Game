@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
 import ListenButton from './ListenButton';
-import { playPop, playSuccess } from '../utils/audio';
+import { playPop, playSuccess, speakHebrew } from '../utils/audio';
 import { HEBREW_LETTERS, NUMBERS, getRandomItems } from '../utils/content';
 import './MatchingGame.css';
 
@@ -77,6 +77,7 @@ export default function MatchingGame({ onWin }) {
               style={{ backgroundColor: letter.color }}
               drag
               dragSnapToOrigin
+              onDragStart={() => speakHebrew(letter.char)}
               onDragEnd={(e, info) => handleDragEnd(e, info, letter)}
               whileDrag={{ scale: 1.2, zIndex: 100 }}
             >

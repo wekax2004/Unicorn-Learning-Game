@@ -1,16 +1,15 @@
 import { useState, useMemo, useEffect } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import ListenButton from './ListenButton';
-import { playPop, playSuccess, playAnimalSound } from '../utils/audio';
+import { playPop, playSuccess, playAnimalSound, speakHebrew } from '../utils/audio';
 import { ANIMALS, getRandomItems } from '../utils/content';
 import './MemoryGame.css';
 
 const DIFFICULTIES = [
-  { id: 'easy', label: '2 זוגות', pairs: 2 },
   { id: 'medium', label: '4 זוגות', pairs: 4 },
   { id: 'hard', label: '8 זוגות', pairs: 8 },
   { id: 'expert', label: '12 זוגות', pairs: 12 },
-  { id: 'insane', label: '20 זוגות', pairs: 20 }
+  { id: 'insane', label: '16 זוגות', pairs: 16 }
 ];
 
 export default function MemoryGame({ onWin }) {
@@ -53,6 +52,7 @@ export default function MemoryGame({ onWin }) {
     if (matched.includes(cards[index].uniqueId)) return;
 
     playAnimalSound(cards[index].id);
+    speakHebrew(cards[index].name || cards[index].id); // Some cards might just be letters
     const newFlipped = [...flipped, index];
     setFlipped(newFlipped);
 

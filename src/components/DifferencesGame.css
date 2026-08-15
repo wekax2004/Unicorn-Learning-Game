@@ -1,0 +1,65 @@
+.differences-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  width: 95%;
+  max-width: 600px;
+}
+
+.differences-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  margin-top: 2rem;
+  background: rgba(255, 255, 255, 0.4);
+  padding: 1.5rem;
+  border-radius: 20px;
+  border: 4px dashed var(--accent);
+}
+
+.diff-divider {
+  height: 4px;
+  background: var(--primary);
+  border-radius: 2px;
+  opacity: 0.5;
+}
+
+.diff-row {
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
+}
+
+.diff-card {
+  width: 70px;
+  height: 70px;
+  background: white;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border: 3px solid #e2e8f0;
+}
+
+.diff-card.clickable {
+  cursor: pointer;
+  border-color: var(--primary);
+}
+
+.diff-emoji {
+  font-size: 3rem;
+  user-select: none;
+}
+
+@media (max-width: 600px) {
+  .diff-card {
+    width: 60px;
+    height: 60px;
+  }
+  .diff-emoji {
+    font-size: 2.5rem;
+  }
+}

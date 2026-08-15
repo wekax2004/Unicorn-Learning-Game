@@ -13,7 +13,11 @@ export const COLORS = {
   yellow: '#fde047',
   blue: '#93c5fd',
   purple: '#d8b4fe',
-  orange: '#fdba74'
+  orange: '#fdba74',
+  white: '#f8fafc',
+  brown: '#d4a373',
+  pink: '#f9a8d4',
+  black: '#475569'
 };
 
 export const FRUITS_VEGGIES = [

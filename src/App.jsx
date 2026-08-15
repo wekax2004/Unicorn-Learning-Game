@@ -14,9 +14,12 @@ import SizeGame from './components/SizeGame';
 import BalloonPop from './components/BalloonPop';
 import StickerBook from './components/StickerBook';
 import TreasureChest from './components/TreasureChest';
+import JigsawGame from './components/JigsawGame';
+import OddOneOut from './components/OddOneOut';
+import DifferencesGame from './components/DifferencesGame';
 import { fireConfetti } from './utils/confetti';
 import { ALL_STICKERS } from './utils/content';
-import { Sparkles, Route, Shapes, PenTool, Hash, Puzzle, Combine, Grip, Search, Star, Music, Music2, Palette, Maximize, Target, Settings, X } from 'lucide-react';
+import { Sparkles, Route, Shapes, PenTool, Hash, Puzzle, Combine, Grip, Search, Star, Music, Music2, Palette, Maximize, Target, Settings, X, Ghost, Image as ImageIcon, Eye } from 'lucide-react';
 
 function App() {
   const [currentView, setCurrentView] = useState('hub');
@@ -55,12 +58,15 @@ function App() {
     { id: 'maze', name: 'מבוך', icon: Route, color: '#e9d5ff' },
     { id: 'tracing', name: 'כתיבה', icon: PenTool, color: '#c084fc' },
     { id: 'counting', name: 'ספירה', icon: Hash, color: '#fde047' },
-    { id: 'puzzle', name: 'פאזל', icon: Puzzle, color: '#86efac' },
+    { id: 'puzzle', name: 'צלליות', icon: Ghost, color: '#86efac' },
+    { id: 'jigsaw', name: 'פאזל', icon: ImageIcon, color: '#bbf7d0' },
     { id: 'sorting', name: 'מיון', icon: Combine, color: '#93c5fd' },
     { id: 'memory', name: 'זיכרון', icon: Grip, color: '#fca5a5' },
     { id: 'identify', name: 'זיהוי', icon: Search, color: '#fcd34d' },
     { id: 'coloring', name: 'צביעה', icon: Palette, color: '#fb923c' },
     { id: 'size', name: 'גודל', icon: Maximize, color: '#34d399' },
+    { id: 'oddone', name: 'יוצא דופן', icon: Star, color: '#fbcfe8' },
+    { id: 'differences', name: 'הבדלים', icon: Eye, color: '#e9d5ff' },
     { id: 'balloons', name: 'בלונים', icon: Target, color: '#f472b6' }
   ];
 
@@ -99,14 +105,17 @@ function App() {
           {currentView === 'matching' && <MatchingGame onWin={handleWin} />}
           {currentView === 'maze' && <MazeGame onWin={handleWin} />}
           {currentView === 'tracing' && <TracingGame onWin={handleWin} />}
-          {currentView === 'counting' && <CountingGame onWin={handleWin} />}
-          {currentView === 'puzzle' && <PuzzleGame onWin={handleWin} />}
-          {currentView === 'sorting' && <SortingGame onWin={handleWin} />}
-          {currentView === 'memory' && <MemoryGame onWin={handleWin} />}
-          {currentView === 'identify' && <IdentifyGame onWin={handleWin} />}
-          {currentView === 'coloring' && <ColoringGame onWin={handleWin} />}
-          {currentView === 'size' && <SizeGame onWin={handleWin} />}
-          {currentView === 'balloons' && <BalloonPop onWin={handleWin} />}
+          { currentView === 'counting' && <CountingGame onWin={handleWin} /> }
+          { currentView === 'puzzle' && <PuzzleGame onWin={handleWin} /> }
+          { currentView === 'jigsaw' && <JigsawGame onWin={handleWin} /> }
+          { currentView === 'sorting' && <SortingGame onWin={handleWin} /> }
+          { currentView === 'memory' && <MemoryGame onWin={handleWin} /> }
+          { currentView === 'identify' && <IdentifyGame onWin={handleWin} /> }
+          { currentView === 'coloring' && <ColoringGame onWin={handleWin} /> }
+          { currentView === 'size' && <SizeGame onWin={handleWin} /> }
+          { currentView === 'oddone' && <OddOneOut onWin={handleWin} /> }
+          { currentView === 'differences' && <DifferencesGame onWin={handleWin} /> }
+          { currentView === 'balloons' && <BalloonPop onWin={handleWin} /> }
         </div>
       </div>
     );

@@ -1,0 +1,99 @@
+.jigsaw-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  width: 95%;
+  max-width: 800px;
+  min-height: 400px;
+}
+
+.jigsaw-layout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 2rem;
+  align-items: center;
+}
+
+.jigsaw-board {
+  display: grid;
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 1 / 1;
+  background: rgba(255, 255, 255, 0.5);
+  border: 4px solid var(--accent);
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.jigsaw-slot {
+  width: 100%;
+  height: 100%;
+  border: 1px dashed rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.jigsaw-placed-piece {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-repeat: no-repeat;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+  animation: snap-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.jigsaw-tray {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  padding: 1rem;
+  background: white;
+  border-radius: 20px;
+  box-shadow: inset 0 4px 6px rgba(0,0,0,0.1);
+  width: 100%;
+  min-height: 120px;
+}
+
+.jigsaw-draggable {
+  width: 60px;
+  height: 60px;
+  cursor: grab;
+  touch-action: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  border: 2px solid white;
+  background-repeat: no-repeat;
+}
+
+.jigsaw-draggable:active {
+  cursor: grabbing;
+}
+
+.jigsaw-tray-placeholder {
+  width: 60px;
+  height: 60px;
+}
+
+.completed-jigsaw {
+  width: 300px;
+  height: 300px;
+  border-radius: 20px;
+  background-size: cover;
+  background-position: center;
+  margin-top: 1rem;
+  border: 4px solid white;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+@keyframes snap-in {
+  0% { transform: scale(1.1); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
