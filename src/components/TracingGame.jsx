@@ -105,7 +105,7 @@ export default function TracingGame({ onWin }) {
     }
     
     const coverage = coveredCount / targetIndices.length;
-    if (coverage > 0.50) { // 50% coverage is very forgiving
+    if (coverage > 0.85) { // Require 85% coverage to win
       setWon(true);
       playSuccess();
       if (onWin) setTimeout(onWin, 2500);
