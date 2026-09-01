@@ -11,52 +11,103 @@ const DIFFICULTIES = [
   { id: 'hard', label: '16 חלקים', cols: 4, rows: 4 }
 ];
 
-const ANIMAL_PHOTOS = [
-  'https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?auto=format&fit=crop&q=80&w=400&h=400', // Cat
-  'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=400&h=400', // Dog
-  'https://images.unsplash.com/photo-1534567153574-2b12153a87f0?auto=format&fit=crop&q=80&w=400&h=400', // Bunny
-  'https://images.unsplash.com/photo-1550258859-d088c27e2a9d?auto=format&fit=crop&q=80&w=400&h=400', // Pig
-  'https://images.unsplash.com/photo-1504006833117-8886a355efbf?auto=format&fit=crop&q=80&w=400&h=400', // Fox
+const PUZZLE_IMAGES = [
+  'https://images.unsplash.com/photo-1587691592099-2404574cea50?auto=format&fit=crop&w=600&q=80', // Hot air balloons
+  'https://images.unsplash.com/photo-1551846743-41c09935bd64?auto=format&fit=crop&w=600&q=80', // Macarons
+  'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=600&q=80', // Toy blocks
+  'https://images.unsplash.com/photo-1629814545300-aee8ebbb79fa?auto=format&fit=crop&w=600&q=80', // Crayons
 ];
+
+function generatePuzzlePieces(cols, rows) {
+  const pieces = [];
+  
+  // hEdges[r][c] is the edge between piece (r, c) and piece (r, c+1)
+  const hEdges = []; 
+  for(let r=0; r<rows; r++) {
+    const rowEdges = [];
+    for(let c=0; c<cols-1; c++) {
+      rowEdges.push(Math.random() > 0.5 ? 1 : -1);
+    }
+    hEdges.push(rowEdges);
+  }
+  
+  // vEdges[r][c] is the edge between piece (r, c) and piece (r+1, c)
+  const vEdges = [];
+  for(let r=0; r<rows-1; r++) {
+    const rowEdges = [];
+    for(let c=0; c<cols; c++) {
+      rowEdges.push(Math.random() > 0.5 ? 1 : -1);
+    }
+    vEdges.push(rowEdges);
+  }
+
+  for(let r=0; r<rows; r++) {
+    for(let c=0; c<cols; c++) {
+      let d = `M 0 0 `;
+      
+      // Top edge
+      if (r === 0) {
+        d += `H 100 `;
+      } else {
+        const sign = vEdges[r-1][c] === 1 ? -1 : 1;
+        d += `C 30 0, 30 ${sign*25}, 50 ${sign*25} `;
+        d += `C 70 ${sign*25}, 70 0, 100 0 `;
+      }
+      
+      // Right edge
+      if (c === cols - 1) {
+        d += `V 100 `;
+      } else {
+        const sign = hEdges[r][c];
+        d += `C 100 30, ${100 + sign*25} 30, ${100 + sign*25} 50 `;
+        d += `C ${100 + sign*25} 70, 100 70, 100 100 `;
+      }
+      
+      // Bottom edge
+      if (r === rows - 1) {
+        d += `H 0 `;
+      } else {
+        const sign = vEdges[r][c];
+        d += `C 70 100, 70 ${100 + sign*25}, 50 ${100 + sign*25} `;
+        d += `C 30 ${100 + sign*25}, 30 100, 0 100 `;
+      }
+      
+      // Left edge
+      if (c === 0) {
+        d += `V 0 `;
+      } else {
+        const sign = hEdges[r][c-1] === 1 ? -1 : 1;
+        d += `C 0 70, ${sign*25} 70, ${sign*25} 50 `;
+        d += `C ${sign*25} 30, 0 30, 0 0 `;
+      }
+      
+      d += 'Z';
+      pieces.push({ id: `${r}-${c}`, r, c, path: d });
+    }
+  }
+  
+  return pieces.sort(() => 0.5 - Math.random());
+}
 
 export default function JigsawGame({ onWin }) {
   const [difficulty] = useState(() => DIFFICULTIES[Math.floor(Math.random() * DIFFICULTIES.length)]);
   const [placedPieces, setPlacedPieces] = useState([]);
   const [won, setWon] = useState(false);
 
-  // Choose a random real animal photo
+  // Choose a random clear photo
   const imageSrc = useMemo(() => {
-    return ANIMAL_PHOTOS[Math.floor(Math.random() * ANIMAL_PHOTOS.length)];
+    return PUZZLE_IMAGES[Math.floor(Math.random() * PUZZLE_IMAGES.length)];
   }, []);
 
-  // Generate pieces based on selected difficulty
+  // Generate real interlocking puzzle pieces
   const pieces = useMemo(() => {
     if (!difficulty) return [];
-    
-    const piecesArray = [];
-    
-    for (let r = 0; r < difficulty.rows; r++) {
-      for (let c = 0; c < difficulty.cols; c++) {
-        piecesArray.push({
-          id: `${r}-${c}`,
-          r,
-          c,
-          // Hebrew is RTL, so column 0 is rendered on the right. 
-          // We must invert the X axis so the rightmost piece shows the right side of the image!
-          bgX: ((difficulty.cols - 1 - c) / (difficulty.cols - 1)) * 100 || 0,
-          bgY: (r / (difficulty.rows - 1)) * 100 || 0,
-        });
-      }
-    }
-    
-    // Shuffle pieces for the tray
-    return piecesArray.sort(() => 0.5 - Math.random());
+    return generatePuzzlePieces(difficulty.cols, difficulty.rows);
   }, [difficulty]);
 
   const handleDragEnd = (event, info, piece) => {
-    // We use elementsFromPoint to find the slot under the finger
     const dropTargets = document.elementsFromPoint(info.point.x, info.point.y);
-    const targetEl = dropTargets.find(el => el.getAttribute('data-jigsaw-slot'));
+    const targetEl = dropTargets.find(el => el && el.getAttribute && el.getAttribute('data-jigsaw-slot'));
     
     if (targetEl) {
       const slotId = targetEl.getAttribute('data-jigsaw-slot');
@@ -93,10 +144,10 @@ export default function JigsawGame({ onWin }) {
       </div>
 
       <div className="jigsaw-layout">
-        {/* The Board (Perfect Square) */}
         <div 
           className="jigsaw-board"
           style={{
+            direction: 'ltr', // Force LTR so piece math aligns perfectly
             gridTemplateColumns: `repeat(${difficulty.cols}, 1fr)`,
             gridTemplateRows: `repeat(${difficulty.rows}, 1fr)`
           }}
@@ -114,14 +165,23 @@ export default function JigsawGame({ onWin }) {
                   data-jigsaw-slot={slotId}
                 >
                   {isPlaced && piece && (
-                    <div 
-                      className="jigsaw-placed-piece"
-                      style={{
-                        backgroundImage: `url(${imageSrc})`,
-                        backgroundPosition: `${piece.bgX}% ${piece.bgY}%`,
-                        backgroundSize: `${difficulty.cols * 100}% ${difficulty.rows * 100}%`
-                      }}
-                    />
+                    <div className="jigsaw-placed-piece">
+                      <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
+                        <clipPath id={`clip-${slotId}`}>
+                          <path d={piece.path} />
+                        </clipPath>
+                        <image 
+                          href={imageSrc} 
+                          width={`${difficulty.cols * 100}`} 
+                          height={`${difficulty.rows * 100}`} 
+                          x={`${-piece.c * 100}`} 
+                          y={`${-piece.r * 100}`} 
+                          clipPath={`url(#clip-${slotId})`} 
+                          preserveAspectRatio="xMidYMid slice"
+                        />
+                        <path d={piece.path} fill="none" stroke="rgba(0,0,0,0.3)" strokeWidth="2" strokeLinejoin="round" />
+                      </svg>
+                    </div>
                   )}
                 </div>
               );
@@ -129,7 +189,6 @@ export default function JigsawGame({ onWin }) {
           ))}
         </div>
 
-        {/* The Tray */}
         <div className="jigsaw-tray">
           {pieces.map(piece => {
             if (placedPieces.includes(piece.id)) {
@@ -143,13 +202,24 @@ export default function JigsawGame({ onWin }) {
                 drag
                 dragSnapToOrigin
                 onDragEnd={(e, info) => handleDragEnd(e, info, piece)}
-                whileDrag={{ scale: 1.2, zIndex: 100 }}
-                style={{
-                  backgroundImage: `url(${imageSrc})`,
-                  backgroundPosition: `${piece.bgX}% ${piece.bgY}%`,
-                  backgroundSize: `${difficulty.cols * 100}% ${difficulty.rows * 100}%`,
-                }}
-              />
+                whileDrag={{ scale: 1.3, zIndex: 100 }}
+              >
+                <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
+                  <clipPath id={`clip-tray-${piece.id}`}>
+                    <path d={piece.path} />
+                  </clipPath>
+                  <image 
+                    href={imageSrc} 
+                    width={`${difficulty.cols * 100}`} 
+                    height={`${difficulty.rows * 100}`} 
+                    x={`${-piece.c * 100}`} 
+                    y={`${-piece.r * 100}`} 
+                    clipPath={`url(#clip-tray-${piece.id})`} 
+                    preserveAspectRatio="xMidYMid slice"
+                  />
+                  <path d={piece.path} fill="none" stroke="rgba(0,0,0,0.5)" strokeWidth="3" strokeLinejoin="round" />
+                </svg>
+              </motion.div>
             );
           })}
         </div>
