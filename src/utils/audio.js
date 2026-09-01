@@ -91,21 +91,29 @@ export const speakHebrew = (text) => {
   window.speechSynthesis.speak(utterance);
 };
 
-const ANIMAL_SOUND_URLS = {
+const ITEM_SOUND_URLS = {
   'a1': 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_a16bc0b12e.mp3?filename=dog-barking-70772.mp3', // Dog
   'a2': 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_24a1b0b5be.mp3?filename=cat-meow-14536.mp3', // Cat
+  'a4': 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_51c6ce49ee.mp3?filename=frog-croaking-71676.mp3', // Frog
   'a6': 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_494e5e4069.mp3?filename=lion-roar-6011.mp3', // Lion
+  'a7': 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_824e8e1f0e.mp3?filename=monkey-screaming-71324.mp3', // Monkey
   'a9': 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_d06f69fc35.mp3?filename=cow-moo-114519.mp3', // Cow
   'a10': 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_55a297e555.mp3?filename=horse-neigh-71322.mp3', // Horse
   'a11': 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_13a17e0b57.mp3?filename=sheep-122256.mp3', // Sheep
   'a12': 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_cfd0fc9d5d.mp3?filename=rooster-crowing-70252.mp3', // Chicken
   'a16': 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_54cbcf1d2d.mp3?filename=elephant-trumpets-71819.mp3', // Elephant
+  'a21': 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_8dfb15520c.mp3?filename=duck-quack-112941.mp3', // Duck
+  'a23': 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_34b3d87d9a.mp3?filename=bee-flying-70233.mp3', // Bee
+  'v1': 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_ba08db72e5.mp3?filename=car-horn-beep-beep-two-beeps-honk-honk-6188.mp3', // Car
+  'v3': 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_f58b6cd988.mp3?filename=train-whistle-71234.mp3', // Train
+  'v11': 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_03d9370603.mp3?filename=police-siren-23498.mp3', // Police
+  'v12': 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_c9e4db33db.mp3?filename=fire-truck-siren-70254.mp3', // Fire truck
 };
 
-export const playAnimalSound = (animalId) => {
-  if (ANIMAL_SOUND_URLS[animalId]) {
+export const playItemSound = (itemId) => {
+  if (ITEM_SOUND_URLS[itemId]) {
     try {
-      const audio = new Audio(ANIMAL_SOUND_URLS[animalId]);
+      const audio = new Audio(ITEM_SOUND_URLS[itemId]);
       audio.play().catch(() => playPop());
     } catch {
       playPop();

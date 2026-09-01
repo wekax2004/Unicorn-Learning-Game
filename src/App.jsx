@@ -17,6 +17,7 @@ import TreasureChest from './components/TreasureChest';
 import JigsawGame from './components/JigsawGame';
 import OddOneOut from './components/OddOneOut';
 import DifferencesGame from './components/DifferencesGame';
+import BubblePopGame from './components/BubblePopGame';
 import { fireConfetti } from './utils/confetti';
 import { ALL_STICKERS } from './utils/content';
 import { Sparkles, Route, Shapes, PenTool, Hash, Puzzle, Combine, Grip, Search, Star, Music, Music2, Palette, Maximize, Target, Settings, X, Ghost, Image as ImageIcon, Eye } from 'lucide-react';
@@ -67,7 +68,8 @@ function App() {
     { id: 'size', name: 'גודל', icon: Maximize, color: '#34d399' },
     { id: 'oddone', name: 'יוצא דופן', icon: Star, color: '#fbcfe8' },
     { id: 'differences', name: 'הבדלים', icon: Eye, color: '#e9d5ff' },
-    { id: 'balloons', name: 'בלונים', icon: Target, color: '#f472b6' }
+    { id: 'balloons', name: 'בלונים', icon: Target, color: '#f472b6' },
+    { id: 'bubbles', name: 'בועות', icon: Target, color: '#bae6fd' }
   ];
 
   const playRandom = () => {
@@ -116,6 +118,7 @@ function App() {
           { currentView === 'oddone' && <OddOneOut onWin={handleWin} /> }
           { currentView === 'differences' && <DifferencesGame onWin={handleWin} /> }
           { currentView === 'balloons' && <BalloonPop onWin={handleWin} /> }
+          { currentView === 'bubbles' && <BubblePopGame onWin={handleWin} /> }
         </div>
       </div>
     );

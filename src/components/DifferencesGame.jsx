@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
 import ListenButton from './ListenButton';
-import { playPop, playSuccess, speakHebrew, playAnimalSound } from '../utils/audio';
+import { playPop, playSuccess, speakHebrew, playItemSound } from '../utils/audio';
 import { ALL_OBJECTS, getRandomItems } from '../utils/content';
 import './DifferencesGame.css';
 
@@ -41,7 +41,7 @@ export default function DifferencesGame({ onWin }) {
 
   const handleTap = (item) => {
     speakHebrew(item.name || item.id);
-    if (item.type === 'animal') playAnimalSound(item.id);
+    playItemSound(item.id);
 
     if (item.isDiff) {
       playSuccess();

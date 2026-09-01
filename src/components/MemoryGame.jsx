@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import ListenButton from './ListenButton';
-import { playPop, playSuccess, playAnimalSound, speakHebrew } from '../utils/audio';
+import { playPop, playSuccess, playItemSound, speakHebrew } from '../utils/audio';
 import { ANIMALS, getRandomItems } from '../utils/content';
 import './MemoryGame.css';
 
@@ -51,7 +51,7 @@ export default function MemoryGame({ onWin }) {
     // To be safe, we'll just check if the specific card index is already matched.
     if (matched.includes(cards[index].uniqueId)) return;
 
-    playAnimalSound(cards[index].id);
+    playItemSound(cards[index].id);
     speakHebrew(cards[index].name || cards[index].id); // Some cards might just be letters
     const newFlipped = [...flipped, index];
     setFlipped(newFlipped);
