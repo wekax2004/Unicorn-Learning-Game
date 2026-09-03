@@ -107,7 +107,7 @@ export default function BubblePopGame({ onWin }) {
             <motion.div
               key={bubble.id}
               className="bubble"
-              initial={{ y: 500, x: `${bubble.x}%`, opacity: 0, scale: 0.5 }}
+              initial={{ y: 500, opacity: 0, scale: 0.5 }}
               animate={{ y: -600, opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 1.5, filter: 'blur(10px)' }}
               transition={{ duration: bubble.speed, ease: 'linear' }}

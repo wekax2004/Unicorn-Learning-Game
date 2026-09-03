@@ -17,13 +17,23 @@ export default function SortingGame({ onWin }) {
     let generatedPrompt = '';
     
     if (selectedMode === 'color') {
-      // Pick items that actually have a defined color in COLORS
       const colorableItems = FRUITS_VEGGIES.filter(i => i.color && COLORS[i.color]);
-      pickedItems = getRandomItems(colorableItems, 6);
-      const uniqueColors = [...new Set(pickedItems.map(item => item.color))];
-      generatedBaskets = uniqueColors.map(color => ({
+      const availableColors = [...new Set(colorableItems.map(i => i.color))];
+      const numColors = Math.random() > 0.5 ? 2 : 3;
+      const selectedColors = getRandomItems(availableColors, numColors);
+      
+      pickedItems = [];
+      selectedColors.forEach(c => {
+        const itemsOfColor = colorableItems.filter(i => i.color === c);
+        pickedItems.push(...getRandomItems(itemsOfColor, 2));
+      });
+      pickedItems.sort(() => 0.5 - Math.random());
+      
+      const hebrewColors = { red: 'אדום', green: 'ירוק', yellow: 'צהוב', blue: 'כחול', purple: 'סגול', orange: 'כתום', brown: 'חום', pink: 'ורוד' };
+      generatedBaskets = selectedColors.map(color => ({
         id: color,
-        icon: '', // colors just use the solid color bar
+        icon: '',
+        label: hebrewColors[color],
         bgColor: COLORS[color],
         borderColor: COLORS[color]
       }));
@@ -109,7 +119,7 @@ export default function SortingGame({ onWin }) {
             data-basket-id={basket.id}
           >
             {basket.icon && <div className="basket-icon" style={{ fontSize: '3.5rem', opacity: 0.6, marginBottom: '10px' }}>{basket.icon}</div>}
-            {!basket.icon && <div className="basket-label" style={{ backgroundColor: basket.borderColor }}></div>}
+            {!basket.icon && <div className="basket-label" style={{ color: '#1f2937', fontWeight: 'bold', fontSize: '1.5rem', textAlign: 'center', marginTop: 'auto', marginBottom: 'auto' }}>{basket.label}</div>}
           </div>
         ))}
       </div>

@@ -4,7 +4,9 @@ export const HEBREW_LETTERS = [
   'ש', 'ת'
 ];
 
-export const NUMBERS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+export const FINAL_LETTERS = ['ך', 'ם', 'ן', 'ף', 'ץ'];
+
+export const NUMBERS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'];
 
 // Simple color mappings for backgrounds or sorting
 export const COLORS = {
@@ -120,11 +122,42 @@ export const NATURE = [
   { id: 'n9', name: 'קשת בענן', icon: '🌈', type: 'nature' }
 ];
 
+export const BODY_PARTS = [
+  { id: 'b1', name: 'ראש', icon: '🧑', type: 'body' },
+  { id: 'b2', name: 'עיניים', icon: '👀', type: 'body' },
+  { id: 'b3', name: 'אוזניים', icon: '👂', type: 'body' },
+  { id: 'b4', name: 'אף', icon: '👃', type: 'body' },
+  { id: 'b5', name: 'פה', icon: '👄', type: 'body' },
+  { id: 'b6', name: 'ידיים', icon: '🤲', type: 'body' },
+  { id: 'b7', name: 'רגליים', icon: '🦶', type: 'body' },
+];
+
+export const EMOTIONS = [
+  { id: 'e1', name: 'שמח', icon: '😊', type: 'emotion' },
+  { id: 'e2', name: 'עצוב', icon: '😢', type: 'emotion' },
+  { id: 'e3', name: 'כועס', icon: '😡', type: 'emotion' },
+  { id: 'e4', name: 'מופתע', icon: '😮', type: 'emotion' },
+  { id: 'e5', name: 'מפחד', icon: '😨', type: 'emotion' },
+  { id: 'e6', name: 'ישן', icon: '😴', type: 'emotion' },
+];
+
+export const OPPOSITES = [
+  { pair: ['חם', 'קר'], icons: ['🔥', '❄️'] },
+  { pair: ['גדול', 'קטן'], icons: ['🐘', '🐁'] },
+  { pair: ['גבוה', 'נמוך'], icons: ['🦒', '🐢'] },
+  { pair: ['מהיר', 'איטי'], icons: ['🐇', '🐌'] },
+  { pair: ['יום', 'לילה'], icons: ['☀️', '🌙'] },
+];
+
 // Master list for identification game
-export const ALL_OBJECTS = [...FRUITS_VEGGIES, ...ANIMALS, ...SHAPES, ...VEHICLES, ...CLOTHING, ...NATURE];
+export const ALL_OBJECTS = [...FRUITS_VEGGIES, ...ANIMALS, ...SHAPES, ...VEHICLES, ...CLOTHING, ...NATURE, ...BODY_PARTS, ...EMOTIONS];
 
 export function getRandomItems(array, count) {
-  const shuffled = [...array].sort(() => 0.5 - Math.random());
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
   return shuffled.slice(0, count);
 }
 

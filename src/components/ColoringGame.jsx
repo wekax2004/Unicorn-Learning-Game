@@ -81,9 +81,8 @@ export default function ColoringGame({ onWin }) {
       playPop();
       
       // Check if all essential parts are colored
-      // We consider it won if ALL parts are painted with something other than white
-      const coloredParts = Object.values(newFills).filter(color => color !== '#ffffff');
-      if (coloredParts.length === template.parts.length && !won) {
+      const coloredPartIds = Object.keys(newFills);
+      if (coloredPartIds.length === template.parts.length && !won) {
         setWon(true);
         playSuccess();
         if (onWin) setTimeout(onWin, 3000);

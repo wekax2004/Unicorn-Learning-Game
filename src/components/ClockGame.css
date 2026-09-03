@@ -1,0 +1,73 @@
+.clock-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.clock-container {
+  width: 200px;
+  height: 200px;
+}
+
+.clock-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.clock-face {
+  fill: white;
+  stroke: #818cf8;
+  stroke-width: 3;
+}
+
+.clock-number {
+  font-size: 8px;
+  font-weight: bold;
+  fill: #333;
+}
+
+.hour-hand {
+  stroke: #1f2937;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.minute-hand {
+  stroke: #ef4444;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.clock-center {
+  fill: #1f2937;
+}
+
+.clock-options {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.clock-option {
+  font-size: 1.5rem;
+  font-weight: bold;
+  background: white;
+  padding: 1rem 2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: border-color 0.2s;
+  color: #4338ca;
+}
+
+.clock-option:hover {
+  border-color: #818cf8;
+}
+
+.shake {
+  animation: shakeError 0.4s ease-in-out;
+  border-color: #f87171 !important;
+}

@@ -28,7 +28,7 @@ const AUDIO_MAP = {
 
     // 1. Check if we have a pre-recorded MP3 for this text
     if (AUDIO_MAP[text]) {
-      const audioUrl = `/Unicorn-Learning-Game/audio/${AUDIO_MAP[text]}.mp3`;
+      const audioUrl = `${import.meta.env.BASE_URL}audio/${AUDIO_MAP[text]}.mp3`;
       const audio = new Audio(audioUrl);
       
       audio.onplay = () => setIsPlaying(true);

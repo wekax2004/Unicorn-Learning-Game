@@ -3,17 +3,14 @@ import { CheckCircle2 } from 'lucide-react';
 import ListenButton from './ListenButton';
 import { playPop, playSuccess, playItemSound, speakHebrew } from '../utils/audio';
 import { ANIMALS, getRandomItems } from '../utils/content';
+import { getGameParams } from '../utils/difficulty';
 import './MemoryGame.css';
 
-const DIFFICULTIES = [
-  { id: 'medium', label: '4 זוגות', pairs: 4 },
-  { id: 'hard', label: '8 זוגות', pairs: 8 },
-  { id: 'expert', label: '12 זוגות', pairs: 12 },
-  { id: 'insane', label: '16 זוגות', pairs: 16 }
-];
-
 export default function MemoryGame({ onWin }) {
-  const [difficulty] = useState(() => DIFFICULTIES[Math.floor(Math.random() * DIFFICULTIES.length)]);
+  const [difficulty] = useState(() => {
+    const { pairs } = getGameParams('memory');
+    return { pairs: pairs || 2 };
+  });
   const [cards, setCards] = useState([]);
   const [flipped, setFlipped] = useState([]);
   const [matched, setMatched] = useState([]);

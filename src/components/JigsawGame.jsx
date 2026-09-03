@@ -3,13 +3,8 @@ import { motion } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
 import ListenButton from './ListenButton';
 import { playPop, playSuccess } from '../utils/audio';
+import { getGameParams } from '../utils/difficulty';
 import './JigsawGame.css';
-
-const DIFFICULTIES = [
-  { id: 'easy', label: '4 חלקים', cols: 2, rows: 2 },
-  { id: 'medium', label: '9 חלקים', cols: 3, rows: 3 },
-  { id: 'hard', label: '16 חלקים', cols: 4, rows: 4 }
-];
 
 const SCENES = [
   {
@@ -153,7 +148,10 @@ function SceneSVG({ scene, width, height }) {
 }
 
 export default function JigsawGame({ onWin }) {
-  const [difficulty] = useState(() => DIFFICULTIES[Math.floor(Math.random() * DIFFICULTIES.length)]);
+  const [difficulty] = useState(() => {
+    const { cols, rows } = getGameParams('jigsaw');
+    return { cols: cols || 2, rows: rows || 2 };
+  });
   const [placedPieces, setPlacedPieces] = useState([]);
   const [won, setWon] = useState(false);
 

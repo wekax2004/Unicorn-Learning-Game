@@ -3,6 +3,19 @@
 const getAudioContext = () => {
   if (!window.audioCtx) {
     window.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    // Resume on first user gesture for mobile browsers
+    const resume = () => {
+      if (window.audioCtx && window.audioCtx.state === 'suspended') {
+        window.audioCtx.resume();
+      }
+      document.removeEventListener('touchstart', resume);
+      document.removeEventListener('click', resume);
+    };
+    document.addEventListener('touchstart', resume, { once: true });
+    document.addEventListener('click', resume, { once: true });
+  }
+  if (window.audioCtx.state === 'suspended') {
+    window.audioCtx.resume();
   }
   return window.audioCtx;
 };
@@ -82,12 +95,21 @@ export const playSuccess = () => {
 
 export const speakHebrew = (text) => {
   if (!window.speechSynthesis) return;
-  // Cancel any ongoing speech so it doesn't queue up forever
   window.speechSynthesis.cancel();
   
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = 'he-IL';
-  utterance.rate = 0.9; // Slightly slower for kids
+  utterance.rate = 0.9;
+  
+  // Try to find a Hebrew voice
+  const voices = window.speechSynthesis.getVoices();
+  const hebrewVoice = voices.find(v => v.lang.startsWith('he'));
+  if (hebrewVoice) {
+    utterance.voice = hebrewVoice;
+  }
+  
+  // Pin utterance to window to prevent GC during speech
+  window._currentUtterance = utterance;
   window.speechSynthesis.speak(utterance);
 };
 

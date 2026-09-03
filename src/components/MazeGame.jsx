@@ -94,28 +94,6 @@ const MAZES = [
       ['#', '.', '.', '#'],
       ['#', '#', '.', 'E']
     ]
-  },
-  {
-    name: 'Hard Maze 1',
-    grid: [
-      ['S', '#', '#', '#', '#', '#'],
-      ['.', '.', '.', '.', '.', '#'],
-      ['#', '#', '#', '#', '.', '#'],
-      ['#', '.', '.', '.', '.', '#'],
-      ['#', '.', '#', '#', '#', '#'],
-      ['#', '.', '.', '.', '.', 'E']
-    ]
-  },
-  {
-    name: 'Hard Maze 2',
-    grid: [
-      ['S', '.', '.', '#', '#', '#'],
-      ['#', '#', '.', '#', '.', 'E'],
-      ['#', '.', '.', '#', '.', '#'],
-      ['#', '.', '#', '#', '.', '#'],
-      ['#', '.', '.', '.', '.', '#'],
-      ['#', '#', '#', '#', '#', '#']
-    ]
   }
 ];
 
@@ -142,9 +120,6 @@ export default function MazeGame({ onWin }) {
     const isEnd = elements.some(el => el.getAttribute('data-end') === 'true');
     
     if (isWall) {
-      playPop();
-      // Instantly cancel the drag and snap back to start by changing the key
-      setResetCount(prev => prev + 1);
       return;
     }
     

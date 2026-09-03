@@ -99,13 +99,13 @@ export default function TracingGame({ onWin }) {
       const idx = targetIndices[i];
       // Purple stroke has a high blue channel (>240), whereas the light gray has ~235
       // Just check if it's distinctly the stroke color
-      if (imgData[idx + 2] > 240 && imgData[idx] < 200) { 
+      if (imgData[idx + 2] > 200) { 
         coveredCount++;
       }
     }
     
     const coverage = coveredCount / targetIndices.length;
-    if (coverage > 0.85) { // Require 85% coverage to win
+    if (coverage > 0.50) { // Require 50% coverage to win
       setWon(true);
       playSuccess();
       if (onWin) setTimeout(onWin, 2500);
@@ -134,8 +134,8 @@ export default function TracingGame({ onWin }) {
       ) : (
         <div className="canvas-container glass-panel" style={{ padding: '2rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-            <ListenButton text="כתבי את האותיות" />
-            <h2 style={{ margin: 0 }}>ציירי את {targetSymbol}:</h2>
+            <ListenButton text={NUMBERS.includes(targetSymbol) ? 'כתבי את המספר' : 'כתבי את האות'} />
+            <h2 style={{ margin: 0 }}>{NUMBERS.includes(targetSymbol) ? 'ציירי את המספר' : 'ציירי את האות'} {targetSymbol}:</h2>
           </div>
           <canvas
             ref={canvasRef}

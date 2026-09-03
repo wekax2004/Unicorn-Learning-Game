@@ -18,9 +18,14 @@ import JigsawGame from './components/JigsawGame';
 import OddOneOut from './components/OddOneOut';
 import DifferencesGame from './components/DifferencesGame';
 import BubblePopGame from './components/BubblePopGame';
+import PatternGame from './components/PatternGame';
+import OrderingGame from './components/OrderingGame';
+import ClockGame from './components/ClockGame';
+import SyllableGame from './components/SyllableGame';
 import { fireConfetti } from './utils/confetti';
+import { recordWin } from './utils/difficulty';
 import { ALL_STICKERS } from './utils/content';
-import { Sparkles, Route, Shapes, PenTool, Hash, Puzzle, Combine, Grip, Search, Star, Music, Music2, Palette, Maximize, Target, Settings, X, Ghost, Image as ImageIcon, Eye } from 'lucide-react';
+import { Sparkles, Route, Shapes, PenTool, Hash, Puzzle, Combine, Grip, Search, Star, Music, Music2, Palette, Maximize, Target, Settings, X, Ghost, Image as ImageIcon, Eye, Clock, ArrowUpDown, BookOpen, Repeat } from 'lucide-react';
 
 function App() {
   const [currentView, setCurrentView] = useState('hub');
@@ -69,7 +74,11 @@ function App() {
     { id: 'oddone', name: 'יוצא דופן', icon: Star, color: '#fbcfe8' },
     { id: 'differences', name: 'הבדלים', icon: Eye, color: '#e9d5ff' },
     { id: 'balloons', name: 'בלונים', icon: Target, color: '#f472b6' },
-    { id: 'bubbles', name: 'בועות', icon: Target, color: '#bae6fd' }
+    { id: 'bubbles', name: 'בועות', icon: Target, color: '#bae6fd' },
+    { id: 'pattern', name: 'רצפים', icon: Repeat, color: '#fca5a5' },
+    { id: 'ordering', name: 'סידור', icon: ArrowUpDown, color: '#a5b4fc' },
+    { id: 'clock', name: 'שעון', icon: Clock, color: '#fde68a' },
+    { id: 'syllable', name: 'הברות', icon: BookOpen, color: '#d8b4fe' }
   ];
 
   const playRandom = () => {
@@ -79,6 +88,7 @@ function App() {
 
   const handleWin = () => {
     fireConfetti();
+    recordWin();
     // Increment wins for stickers
     const newWins = wins + 1;
     setWins(newWins);
@@ -119,6 +129,10 @@ function App() {
           { currentView === 'differences' && <DifferencesGame onWin={handleWin} /> }
           { currentView === 'balloons' && <BalloonPop onWin={handleWin} /> }
           { currentView === 'bubbles' && <BubblePopGame onWin={handleWin} /> }
+          { currentView === 'pattern' && <PatternGame onWin={handleWin} /> }
+          { currentView === 'ordering' && <OrderingGame onWin={handleWin} /> }
+          { currentView === 'clock' && <ClockGame onWin={handleWin} /> }
+          { currentView === 'syllable' && <SyllableGame onWin={handleWin} /> }
         </div>
       </div>
     );
