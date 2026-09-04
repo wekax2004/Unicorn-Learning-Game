@@ -124,13 +124,8 @@ function generatePuzzlePieces(cols, rows) {
 function SceneSVG({ scene, width, height }) {
   return (
     <svg width={width} height={height} viewBox="0 0 100 100" preserveAspectRatio="none">
-      <defs>
-        <linearGradient id={`grad-${scene.id}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={scene.bg[0]} />
-          <stop offset="100%" stopColor={scene.bg[1]} />
-        </linearGradient>
-      </defs>
-      <rect width="100" height="100" fill={`url(#grad-${scene.id})`} />
+      <rect width="100" height="100" fill={scene.bg[0]} />
+      <rect width="100" height="100" fill={scene.bg[1]} fillOpacity="0.5" />
       {scene.elements.map((el, idx) => (
         <text 
           key={idx} 
@@ -143,6 +138,36 @@ function SceneSVG({ scene, width, height }) {
           {el.char}
         </text>
       ))}
+    </svg>
+  );
+}
+
+// Render individual piece robustly using clipPath
+function PieceSVG({ piece, scene, totalW, totalH }) {
+  return (
+    <svg viewBox={`${piece.c * 100} ${piece.r * 100} 100 100`} style={{ width: '100%', height: '100%', overflow: 'visible' }}>
+      <defs>
+        <clipPath id={`clip-${piece.id}`}>
+          <path d={piece.path} />
+        </clipPath>
+      </defs>
+      <g clipPath={`url(#clip-${piece.id})`}>
+        <rect x="0" y="0" width={totalW} height={totalH} fill={scene.bg[0]} />
+        <rect x="0" y="0" width={totalW} height={totalH} fill={scene.bg[1]} fillOpacity="0.5" />
+        {scene.elements.map((el, idx) => (
+          <text 
+            key={idx} 
+            x={(el.x * totalW) / 100} 
+            y={(el.y * totalH) / 100} 
+            fontSize={(el.size / 2) * (Math.min(totalW, totalH) / 100)} 
+            textAnchor="middle" 
+            dominantBaseline="middle"
+          >
+            {el.char}
+          </text>
+        ))}
+      </g>
+      <path d={piece.path} fill="none" stroke="rgba(0,0,0,0.5)" strokeWidth="3" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -198,42 +223,12 @@ export default function JigsawGame({ onWin }) {
     );
   }
 
-  // Define the common pattern once so we can reuse it
-  const patternId = `scene-pattern`;
-
   return (
     <div className="jigsaw-game glass-panel">
       <div className="header-row" style={{ marginBottom: '1rem' }}>
         <ListenButton text="הרכיבי את התמונה מחדש" />
         <h2 style={{ fontSize: '1.5rem', margin: 0 }}>פאזל תמונה</h2>
       </div>
-
-      {/* SVG Defs for the common picture pattern */}
-      <svg width="0" height="0" style={{ position: 'absolute' }}>
-        <defs>
-          <pattern id={patternId} patternUnits="userSpaceOnUse" width={totalW} height={totalH}>
-            <svg width={totalW} height={totalH} viewBox="0 0 100 100" preserveAspectRatio="none">
-              <linearGradient id={`grad-bg`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={scene.bg[0]} />
-                <stop offset="100%" stopColor={scene.bg[1]} />
-              </linearGradient>
-              <rect width="100" height="100" fill="url(#grad-bg)" />
-              {scene.elements.map((el, idx) => (
-                <text 
-                  key={idx} 
-                  x={el.x} 
-                  y={el.y} 
-                  fontSize={el.size / 2} 
-                  textAnchor="middle" 
-                  dominantBaseline="middle"
-                >
-                  {el.char}
-                </text>
-              ))}
-            </svg>
-          </pattern>
-        </defs>
-      </svg>
 
       <div className="jigsaw-layout">
         <div 
@@ -258,10 +253,7 @@ export default function JigsawGame({ onWin }) {
                 >
                   {isPlaced && piece && (
                     <div className="jigsaw-placed-piece">
-                      <svg viewBox={`${piece.c * 100} ${piece.r * 100} 100 100`} style={{ width: '100%', height: '100%', overflow: 'visible' }}>
-                        <path d={piece.path} fill={`url(#${patternId})`} />
-                        <path d={piece.path} fill="none" stroke="rgba(0,0,0,0.3)" strokeWidth="2" strokeLinejoin="round" />
-                      </svg>
+                      <PieceSVG piece={piece} scene={scene} totalW={totalW} totalH={totalH} />
                     </div>
                   )}
                 </div>
@@ -285,10 +277,7 @@ export default function JigsawGame({ onWin }) {
                 onDragEnd={(e, info) => handleDragEnd(e, info, piece)}
                 whileDrag={{ scale: 1.3, zIndex: 100 }}
               >
-                <svg viewBox={`${piece.c * 100} ${piece.r * 100} 100 100`} style={{ width: '100%', height: '100%', overflow: 'visible' }}>
-                  <path d={piece.path} fill={`url(#${patternId})`} />
-                  <path d={piece.path} fill="none" stroke="rgba(0,0,0,0.5)" strokeWidth="3" strokeLinejoin="round" />
-                </svg>
+                <PieceSVG piece={piece} scene={scene} totalW={totalW} totalH={totalH} />
               </motion.div>
             );
           })}
