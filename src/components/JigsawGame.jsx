@@ -83,7 +83,7 @@ function generatePuzzlePieces(cols, rows) {
       if (r === 0) {
         d += `H ${ox + 100} `;
       } else {
-        const sign = vEdges[r-1][c] === 1 ? -1 : 1;
+        const sign = vEdges[r-1][c];
         d += `C ${ox+30} ${oy}, ${ox+30} ${oy+sign*25}, ${ox+50} ${oy+sign*25} `;
         d += `C ${ox+70} ${oy+sign*25}, ${ox+70} ${oy}, ${ox+100} ${oy} `;
       }
@@ -107,7 +107,7 @@ function generatePuzzlePieces(cols, rows) {
       if (c === 0) {
         d += `V ${oy} `;
       } else {
-        const sign = hEdges[r][c-1] === 1 ? -1 : 1;
+        const sign = hEdges[r][c-1];
         d += `C ${ox} ${oy+70}, ${ox+sign*25} ${oy+70}, ${ox+sign*25} ${oy+50} `;
         d += `C ${ox+sign*25} ${oy+30}, ${ox} ${oy+30}, ${ox} ${oy} `;
       }
